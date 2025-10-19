@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronograma de Cambios - Control de Cambios</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 24px;
+            border-bottom: 3px solid #27ae60;
+            padding-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 13px;
+        }
+        
+        thead {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+        }
+        
+        th {
+            padding: 14px 12px;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+        }
+        
+        th:first-child {
+            width: 25%;
+        }
+        
+        th:nth-child(2),
+        th:nth-child(3),
+        th:nth-child(4) {
+            width: 18%;
+            text-align: center;
+        }
+        
+        th:last-child {
+            width: 21%;
+            text-align: center;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ecf0f1;
+            vertical-align: middle;
+        }
+        
+        td:first-child {
+            font-weight: 600;
+            color: #2c3e50;
+            background-color: #f8f9fa;
+        }
+        
+        td:nth-child(2),
+        td:nth-child(3),
+        td:nth-child(4) {
+            text-align: center;
+        }
+        
+        td:last-child {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 12px;
+        }
+        
+        tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        /* Fila de total */
+        tbody tr:last-child {
+            background-color: #ecf8f3;
+            font-weight: 700;
+            border-top: 2px solid #27ae60;
+        }
+        
+        tbody tr:last-child td {
+            color: #27ae60;
+            font-size: 14px;
+            padding: 14px 12px;
+            border-bottom: 2px solid #27ae60;
+        }
+        
+        tbody tr:last-child td:first-child {
+            background-color: #27ae60;
+            color: white;
+        }
+        
+        /* Badges de tiempo */
+        .time-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+        
+        .time-menor {
+            background-color: #d5f4e6;
+            color: #27ae60;
+            border: 1px solid #27ae60;
+        }
+        
+        .time-mayor {
+            background-color: #fef5e7;
+            color: #f39c12;
+            border: 1px solid #f39c12;
+        }
+        
+        .time-critico {
+            background-color: #fadbd8;
+            color: #e74c3c;
+            border: 1px solid #e74c3c;
+        }
+        
+        .time-continuo {
+            background-color: #ebf5fb;
+            color: #3498db;
+            border: 1px solid #3498db;
+        }
+        
+        /* Iconos de etapa */
+        .etapa-num {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            border-radius: 50%;
+            background-color: #27ae60;
+            color: white;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 700;
+            margin-right: 8px;
+        }
+        
+        /* Estilos para impresión/PDF */
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+            
+            table {
+                page-break-inside: avoid;
+            }
+            
+            tr {
+                page-break-inside: avoid;
+            }
+        }
+        
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ecf0f1;
+            font-size: 11px;
+            color: #7f8c8d;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .legend-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        
+        .box-menor {
+            background-color: #d5f4e6;
+            border: 2px solid #27ae60;
+        }
+        
+        .box-mayor {
+            background-color: #fef5e7;
+            border: 2px solid #f39c12;
+        }
+        
+        .box-critico {
+            background-color: #fadbd8;
+            border: 2px solid #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Cronograma de Cambios</h2>
+        <p class="subtitle">Cronograma de Control de Cambios - Sistema Auxiliar Contable</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Etapa</th>
+                    <th>Cambio Menor</th>
+                    <th>Cambio Mayor</th>
+                    <th>Cambio Crítico</th>
+                    <th>Responsable</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="etapa-num">1</span>Registro</td>
+                    <td><span class="time-badge time-menor">1 día hábil</span></td>
+                    <td><span class="time-badge time-mayor">1 día hábil</span></td>
+                    <td><span class="time-badge time-critico">4 horas</span></td>
+                    <td>Gerente del Proyecto</td>
+                </tr>
+                <tr>
+                    <td><span class="etapa-num">2</span>Evaluación Inicial</td>
+                    <td><span class="time-badge time-menor">1 día hábil</span></td>
+                    <td><span class="time-badge time-mayor">1 día hábil</span></td>
+                    <td><span class="time-badge time-critico">4 horas</span></td>
+                    <td>Gerente del Proyecto</td>
+                </tr>
+                <tr>
+                    <td><span class="etapa-num">3</span>Análisis de Impacto</td>
+                    <td><span class="time-badge time-menor">2 días hábiles</span></td>
+                    <td><span class="time-badge time-mayor">3 días hábiles</span></td>
+                    <td><span class="time-badge time-critico">1 día hábil</span></td>
+                    <td>Equipo Técnico</td>
+                </tr>
+                <tr>
+                    <td><span class="etapa-num">4</span>Decisión</td>
+                    <td><span class="time-badge time-menor">1 día hábil</span></td>
+                    <td><span class="time-badge time-mayor">3 días hábiles</span></td>
+                    <td><span class="time-badge time-critico">24 horas</span></td>
+                    <td>GP / CCC</td>
+                </tr>
+                <tr>
+                    <td><span class="etapa-num">5</span>Planificación</td>
+                    <td><span class="time-badge time-menor">1 día hábil</span></td>
+                    <td><span class="time-badge time-mayor">2 días hábiles</span></td>
+                    <td><span class="time-badge time-critico">1 día hábil</span></td>
+                    <td>Líder Técnico</td>
+                </tr>
+                <tr>
+                    <td><span class="etapa-num">6</span>Implementación</td>
+                    <td><span class="time-badge time-menor">3-5 días hábiles</span></td>
+                    <td><span class="time-badge time-mayor">10-15 días hábiles</span></td>
+                    <td><span class="time-badge time-critico">2-5 días hábiles</span></td>
+                    <td>Equipo Técnico</td>
+                </tr>
+                <tr>
+                    <td><span class="etapa-num">7</span>Seguimiento</td>
+                    <td><span class="time-badge time-continuo">Continuo</span></td>
+                    <td><span class="time-badge time-continuo">Continuo</span></td>
+                    <td><span class="time-badge time-continuo">Continuo</span></td>
+                    <td>Gerente del Proyecto</td>
+                </tr>
+                <tr>
+                    <td><span class="etapa-num">8</span>Cierre</td>
+                    <td><span class="time-badge time-menor">1 día hábil</span></td>
+                    <td><span class="time-badge time-mayor">2 días hábiles</span></td>
+                    <td><span class="time-badge time-critico">1 día hábil</span></td>
+                    <td>Gerente del Proyecto</td>
+                </tr>
+                <tr>
+                    <td>TIEMPO TOTAL</td>
+                    <td><strong>10-12 días</strong></td>
+                    <td><strong>22-27 días</strong></td>
+                    <td><strong>5-8 días</strong></td>
+                    <td>-</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="footer">
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-box box-menor"></div>
+                    <span><strong>Cambio Menor:</strong> Bajo impacto, aprobación rápida</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-box box-mayor"></div>
+                    <span><strong>Cambio Mayor:</strong> Impacto significativo, requiere CCC</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-box box-critico"></div>
+                    <span><strong>Cambio Crítico:</strong> Urgente, proceso acelerado</span>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 15px;">
+                <strong>Nota:</strong> Los tiempos son máximos permitidos. El seguimiento es continuo durante todo el proceso de implementación.<br>
+                GP = Gerente del Proyecto | CCC = Comité de Control de Cambios
+            </p>
+        </div>
+    </div>
+</body>
+</html>
