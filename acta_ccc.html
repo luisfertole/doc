@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acta de Sesión - Comité de Control de Cambios</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 4px solid #6366f1;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #6366f1;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .session-info {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .info-item h3 {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        
+        .info-item p {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            background-color: #6366f1;
+            color: white;
+            padding: 12px 15px;
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #fbbf24;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: white;
+        }
+        
+        th {
+            background-color: #eef2ff;
+            color: #6366f1;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            border: 1px solid #d1d5db;
+            text-transform: uppercase;
+        }
+        
+        td {
+            padding: 11px 12px;
+            border: 1px solid #e5e7eb;
+            font-size: 13px;
+            color: #555;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .info-box {
+            border: 1px solid #d1d5db;
+            padding: 15px;
+            border-radius: 4px;
+            background-color: #f9fafb;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #6366f1;
+            font-size: 12px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        
+        .info-value {
+            color: #555;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        .deliberation-box {
+            background-color: #f0f4ff;
+            border-left: 4px solid #6366f1;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        
+        .deliberation-box h4 {
+            color: #6366f1;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .deliberation-box p {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .decision-box {
+            border: 2px solid #6366f1;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            background-color: #f8f7ff;
+        }
+        
+        .decision-title {
+            font-weight: 700;
+            color: #6366f1;
+            font-size: 14px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .decision-badge {
+            display: inline-block;
+            padding: 10px 16px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        
+        .decision-badge.approved {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 2px solid #10b981;
+        }
+        
+        .decision-badge.rejected {
+            background-color: #fee2e2;
+            color: #7f1d1d;
+            border: 2px solid #ef4444;
+        }
+        
+        .decision-badge.deferred {
+            background-color: #fef3c7;
+            color: #78350f;
+            border: 2px solid #f59e0b;
+        }
+        
+        .decision-badge.info-required {
+            background-color: #dbeafe;
+            color: #082f49;
+            border: 2px solid #3b82f6;
+        }
+        
+        .voting-section {
+            background-color: #f9fafb;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .voting-item {
+            display: grid;
+            grid-template-columns: 150px 1fr 150px;
+            gap: 20px;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .voting-item:last-child {
+            border-bottom: none;
+        }
+        
+        .voting-label {
+            font-weight: 600;
+            color: #555;
+            font-size: 13px;
+        }
+        
+        .voting-bar {
+            background-color: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            height: 24px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .voting-fill {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 11px;
+            background-color: #6366f1;
+        }
+        
+        .voting-count {
+            text-align: right;
+            font-weight: 600;
+            color: #555;
+            font-size: 13px;
+        }
+        
+        .member-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 12px;
+        }
+        
+        .member-item {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+        }
+        
+        .member-checkbox {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+        }
+        
+        .conditions-box {
+            background-color: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        
+        .conditions-box h4 {
+            color: #92400e;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .conditions-list {
+            list-style-position: inside;
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .conditions-list li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .action-items {
+            background-color: #f3f4f6;
+            padding: 15px;
+            border-radius: 4px;
+            border-left: 4px solid #6366f1;
+        }
+        
+        .action-items h4 {
+            color: #6366f1;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        .action-item {
+            display: grid;
+            grid-template-columns: 150px 1fr 120px;
+            gap: 15px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 3px;
+            margin-bottom: 10px;
+            align-items: center;
+            border-left: 3px solid #6366f1;
+        }
+        
+        .action-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .action-responsible {
+            font-weight: 600;
+            font-size: 12px;
+            color: #555;
+        }
+        
+        .action-task {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .action-date {
+            text-align: center;
+            font-weight: 600;
+            font-size: 12px;
+            color: #6366f1;
+        }
+        
+        .notification-section {
+            background-color: #e0f2fe;
+            border: 2px solid #0284c7;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .notification-section h4 {
+            color: #0c4a6e;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .notification-list {
+            list-style-position: inside;
+            font-size: 13px;
+            color: #0c4a6e;
+        }
+        
+        .notification-list li {
+            margin-bottom: 6px;
+        }
+        
+        .signature-area {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e5e7eb;
+        }
+        
+        .signature-block {
+            text-align: center;
+        }
+        
+        .signature-block.president {
+            border-top: 1px solid #999;
+            padding-top: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .signature-role {
+            font-weight: 600;
+            color: #6366f1;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+        
+        .signature-name {
+            font-size: 12px;
+            color: #555;
+            margin-top: 3px;
+        }
+        
+        .remarks-box {
+            background-color: #f9fafb;
+            border: 1px solid #d1d5db;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            min-height: 80px;
+        }
+        
+        .remarks-box h4 {
+            color: #6366f1;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .remarks-content {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e5e7eb;
+            font-size: 11px;
+            color: #999;
+            text-align: center;
+        }
+        
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                max-width: 100%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ENCABEZADO -->
+        <div class="header">
+            <h1>📋 ACTA DE SESIÓN</h1>
+            <p>Comité de Control de Cambios (CCC)</p>
+        </div>
+
+        <!-- INFORMACIÓN DE LA SESIÓN -->
+        <div class="session-info">
+            <div class="info-item">
+                <h3>Acta Nº</h3>
+                <p>CCC-2025-015</p>
+            </div>
+            <div class="info-item">
+                <h3>Fecha de Sesión</h3>
+                <p>[Fecha y Hora]</p>
+            </div>
+            <div class="info-item">
+                <h3>Ubicación</h3>
+                <p>Sala de Juntas / Virtual</p>
+            </div>
+            <div class="info-item">
+                <h3>Presidente CCC</h3>
+                <p>[Nombre del Presidente]</p>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 1: ASISTENCIA -->
+        <div class="section">
+            <div class="section-title">ASISTENCIA A LA SESIÓN</div>
+            
+            <div class="info-grid">
+                <div class="info-box">
+                    <div class="info-label">Presidente del CCC</div>
+                    <div class="info-value">[Nombre del Presidente]</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Secretario/Acta</div>
+                    <div class="info-value">[Nombre del Secretario]</div>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rol</th>
+                        <th>Nombre</th>
+                        <th>Departamento</th>
+                        <th>Presente</th>
+                        <th>Ausencia Justificada</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Gerente del Proyecto</strong></td>
+                        <td>[Nombre]</td>
+                        <td>Gestión de Proyectos</td>
+                        <td>☑</td>
+                        <td>☐</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Líder Técnico</strong></td>
+                        <td>[Nombre]</td>
+                        <td>Desarrollo/Tecnología</td>
+                        <td>☑</td>
+                        <td>☐</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Responsable de Calidad</strong></td>
+                        <td>[Nombre]</td>
+                        <td>Aseguramiento de Calidad</td>
+                        <td>☑</td>
+                        <td>☐</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Gerente de Operaciones</strong></td>
+                        <td>[Nombre]</td>
+                        <td>Operaciones</td>
+                        <td>☑</td>
+                        <td>☐</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Responsable Financiero</strong></td>
+                        <td>[Nombre]</td>
+                        <td>Finanzas/Administración</td>
+                        <td>☑</td>
+                        <td>☐</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Representante del Cliente</strong></td>
+                        <td>[Nombre]</td>
+                        <td>Cliente/Stakeholder</td>
+                        <td>☐</td>
+                        <td>☑</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SECCIÓN 2: CAMBIOS A EVALUAR -->
+        <div class="section">
+            <div class="section-title">CAMBIOS EVALUADOS EN ESTA SESIÓN</div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nº Control</th>
+                        <th>Descripción del Cambio</th>
+                        <th>Solicitante</th>
+                        <th>Prioridad</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>CHG-2025-045</strong></td>
+                        <td>Implementación de autenticación de dos factores (2FA)</td>
+                        <td>[Nombre Solicitante]</td>
+                        <td>🔴 Alta</td>
+                        <td>En Evaluación</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CHG-2025-046</strong></td>
+                        <td>Modificación de reportes financieros mensuales</td>
+                        <td>[Nombre Solicitante]</td>
+                        <td>🟡 Media</td>
+                        <td>En Evaluación</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CHG-2025-047</strong></td>
+                        <td>Integración con nuevo proveedor de servicios en la nube</td>
+                        <td>[Nombre Solicitante]</td>
+                        <td>🔴 Alta</td>
+                        <td>En Evaluación</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SECCIÓN 3: DELIBERACIÓN CHG-2025-045 -->
+        <div class="section">
+            <div class="section-title">CAMBIO 1: CHG-2025-045 - Implementación de Autenticación de Dos Factores (2FA)</div>
+            
+            <div class="info-grid">
+                <div class="info-box">
+                    <div class="info-label">Fecha de Solicitud</div>
+                    <div class="info-value">[Fecha]</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Fecha Requerida</div>
+                    <div class="info-value">[Fecha]</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Responsable del Análisis</div>
+                    <div class="info-value">[Nombre - Líder Técnico]</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Estimación de Esfuerzo</div>
+                    <div class="info-value">120 horas / $8,000 USD</div>
+                </div>
+            </div>
+
+            <h3 style="color: #6366f1; font-size: 14px; font-weight: 600; margin-bottom: 15px; margin-top: 20px;">Análisis de Impacto Presentado:</h3>
+
+            <div class="deliberation-box">
+                <h4>✓ Alineación con Objetivos del Proyecto</h4>
+                <p>El cambio se alinea perfectamente con los objetivos estratégicos de seguridad de la información. Mejora significativamente la postura de seguridad del proyecto y cumple con requisitos regulatorios (GDPR, SOC 2).</p>
+            </div>
+
+            <div class="deliberation-box">
+                <h4>📅 Impacto en Cronograma y Presupuesto</h4>
+                <p><strong>Cronograma:</strong> Impacto de 15 días en el cronograma general. El proyecto actual tiene holgura suficiente para absorber este impacto sin afectar el hito final. <br><strong>Presupuesto:</strong> Costo estimado de $8,000 USD. Se encuentra dentro de la reserva de contingencia presupuestaria (3% del presupuesto total).</p>
+            </div>
+
+            <div class="deliberation-box">
+                <h4>💰 Valor de Negocio vs. Costo</h4>
+                <p><strong>Valor de Negocio:</strong> Alto impacto positivo. Reduce riesgo de fraude, cumple normativa, mejora confianza del cliente y posibilita acceso a nuevos mercados. ROI estimado en 18 meses. <br><strong>Costo:</strong> $8,000 USD (inversión única). Ratios beneficio-costo positivo de 3.5:1</p>
+            </div>
+
+            <div class="deliberation-box">
+                <h4>👥 Disponibilidad de Recursos</h4>
+                <p>Recursos disponibles: Se cuenta con 2 desarrolladores senior disponibles y 1 especialista en seguridad. No hay conflicto con otras actividades críticas. El QA cuenta con capacidad para las pruebas necesarias.</p>
+            </div>
+
+            <div class="deliberation-box">
+                <h4>⚠️ Riesgos Asociados</h4>
+                <p><strong>Riesgo de Compatibilidad:</strong> Medio - Requiere validar con clientes existentes. Mitigación: Pruebas exhaustivas de compatibilidad. <br><strong>Riesgo de Adopción:</strong> Bajo a Medio - Algunos usuarios pueden resistir. Mitigación: Plan de comunicación y capacitación. <br><strong>Riesgo Técnico:</strong> Bajo - Tecnología probada y establecida. Mitigación: Revisión de código por experto en seguridad.</p>
+            </div>
+
+            <!-- VOTACIÓN CHG-2025-045 -->
+            <h3 style="color: #6366f1; font-size: 14px; font-weight: 600; margin-bottom: 15px; margin-top: 20px;">Votación del Comité:</h3>
+
+            <div class="voting-section">
+                <div class="voting-item">
+                    <div class="voting-label">A Favor</div>
+                    <div class="voting-bar">
+                        <div class="voting-fill" style="width: 83%;">5 votos</div>
+                    </div>
+                    <div class="voting-count">5/6</div>
+                </div>
+                <div class="voting-item">
+                    <div class="voting-label">En Contra</div>
+                    <div class="voting-bar">
+                        <div class="voting-fill" style="width: 17%; background-color: #ef4444;">1 voto</div>
+                    </div>
+                    <div class="voting-count">1/6</div>
+                </div>
+                <div class="voting-item">
+                    <div class="voting-label">Abstenciones</div>
+                    <div class="voting-bar">
+                        <div class="voting-fill" style="width: 0%; background-color: #9ca3af;"></div>
+                    </div>
+                    <div class="voting-count">0/6</div>
+                </div>
+            </div>
+
+            <div style="background-color: #f0f4ff; padding: 12px; border-radius: 4px; margin-bottom: 15px; font-size: 13px;">
+                <strong>Observación del Voto en Contra:</strong> El Responsable Financiero expresó preocupación por el costo inicial, aunque reconoce el valor de negocio. Solicita un plan de seguimiento de ROI.
+            </div>
+
+            <!-- DECISIÓN CHG-2025-045 -->
+            <div class="decision-box">
+                <div class="decision-title">DECISIÓN FINAL</div>
+                <span class="decision-badge approved">✓ APROBADO</span>
+                <p style="font-size: 13px; color: #555; line-height: 1.6; margin-bottom: 15px;">
+                    Por consenso mayoritario, el Comité de Control de Cambios <strong>APRUEBA</strong> la implementación de autenticación de dos factores (2FA). 
+                </p>
+                <p style="font-size: 13px; color: #555; line-height: 1.6;">
+                    <strong>Justificación:</strong> El cambio presenta alto valor de negocio, alineación clara con objetivos estratégicos, impacto manejable en cronograma y presupuesto, y riesgos mitigables. Los beneficios en seguridad y cumplimiento normativo superan ampliamente los costos.
+                </p>
+            </div>
+
+            <!-- CONDICIONES CHG-2025-045 -->
+            <div class="conditions-box">
+                <h4>📋 Condiciones y Requisitos de Aprobación</h4>
+                <ul class="conditions-list">
+                    <li><strong>Capacitación Obligatoria:</strong> Desarrollar e impartir plan de capacitación a usuarios finales antes del lanzamiento.</li>
+                    <li><strong>Pruebas de Compatibilidad:</strong> Validar compatibilidad con todos los navegadores principales y dispositivos móviles existentes.</li>
+                    <li><strong>Plan de Seguimiento de ROI:</strong> Establecer métricas y monitoreo del impacto financiero según lo solicitado por Finanzas.</li>
+                    <li><strong>Comunicación al Cliente:</strong> Notificar formalmente al cliente sobre el cambio y fechas de implementación.</li>
+                    <li><strong>Documentación de Seguridad:</strong> Incluir documentación completa de procedimientos de seguridad y recuperación ante olvidos.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 4: DELIBERACIÓN CHG-2025-046 -->
+        <div class="section">
+            <div class="section-title">CAMBIO 2: CHG-2025-046 - Modificación de Reportes Financieros Mensuales</div>
+            
+            <div class="info-grid">
+                <div class="info-box">
+                    <div class="info-label">Fecha de Solicitud</div>
+                    <div class="info-value">[Fecha]</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Fecha Requerida</div>
+                    <div class="info-value">[Fecha]</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Responsable del Análisis</div>
+                    <div class="info-value">[Nombre - Responsable Financiero]</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Estimación de Esfuerzo</div>
+                    <div class="info-value">40 horas / $2,500 USD</div>
+                </div>
+            </div>
+
+            <div class="deliberation-box">
+                <h4>✓ Alineación con Objetivos del Proyecto</h4>
+                <p>Cambio alineado con objetivos de optimización de procesos contables. Mejora calidad de reportes y precisión de información financiera.</p>
+            </div>
+
+            <div class="deliberation-box">
+                <h4>📅 Impacto en Cronograma y Presupuesto</h4>
+                <p>Impacto mínimo. Estimación de 5 días de esfuerzo. Presupuesto de $2,500 USD muy por debajo de reserva. Sin afectación al cronograma.</p>
+            </div>
+
+            <div class="deliberation-box">
+                <h4>💰 Valor de Negocio vs. Costo</h4>
+                <p>Valor: Moderado. Mejora calidad de reportes pero sin impacto directo en ingresos. Mejora proceso interno. ROI indirecto en eficiencia operativa.</p>
+            </div>
+
+            <div class="deliberation-box">
+                <h4>👥 Disponibilidad de Recursos</h4>
+                <p>Recursos disponibles. El Responsable Financiero y un desarrollador junior pueden ejecutar sin impacto en actividades prioritarias.</p>
+            </div>
+
+            <div class="deliberation-box">
+                <h4>⚠️ Riesgos Asociados</h4>
+                <p>Riesgo bajo. Cambio en reportes requiere validación de auditoría pero sin complejidad técnica significativa. Se requiere prueba exhaustiva de integridad de datos.</p>
+            </div>
+
+            <!-- VOTACIÓN CHG-2025-046 -->
+            <div class="voting-section" style="margin-top: 20px;">
+                <div class="voting-item">
+                    <div class="voting-label">A Favor</div>
+                    <div class="voting-bar">
+                        <div class="voting-fill" style="width: 100%;">6 votos</div>
+                    </div>
+                    <div class="voting-count">6/6</div>
+                </div>
+                <div class="voting-item">
+                    <div class="voting-label">En Contra</div>
+                    <div class="voting-bar">
+                        <div class="voting-fill" style="width: 0%; background-color: #ef4444;"></div>
+                    </div>
+                    <div class="voting-count">0/6</div>
+                </div>
+                <div class="voting-item">
+                    <div class="voting-label">Abstenciones</div>
+                    <div class="voting-bar">
+                        <div class="voting-fill" style="width: 0%; background-color: #9ca3af;"></div>
+                    </div>
+                    <div class="voting-count">0/6</div>
+                </div>
+            </div>
+
+            <!-- DECISIÓN CHG-2025-046 -->
+            <div class="decision-box">
+                <div class="decision-title">DECISIÓN FINAL</div>
+                <span class="decision-badge approved">✓ APROBADO</span>
+                <p style="font-size: 13px; color: #555; line-height: 1.6; margin-bottom: 15px;">
+                    Por unanimidad, el Comité de Control de Cambios <strong>APRUEBA</strong> la modificación de reportes financieros mensuales.
+                </p>
+                <p style="font-size: 13px; color: #555; line-height: 1.6;">
+                    <strong>Justificación:</strong> Cambio de bajo riesgo con impacto positivo en calidad de información financiera. Impacto mínimo en cronograma y presupuesto. Recursos disponibles sin conflictos.
+                </p>
+            </div>
+
+            <!-- CONDICIONES CHG-2025-046 -->
+            <div class="conditions-box">
+                <h4>📋 Condiciones y Requisitos de Aprobación</h4>
+                <ul class="conditions-list">
+                    <li><strong>Validación de Auditoría:</strong> Obtener aprobación del auditor externo antes de implementar cambios en reportes.</li>
+                    <li><strong>Pruebas de Integridad:</strong> Ejecutar pruebas exhaustivas de integridad y precisión de datos financieros.</li>
+                    <li><strong>Documentación:</strong> Mantener registro detallado de cambios en estructura de reportes para trazabilidad.</li>
+                    <li><strong>Capacitación de Usuarios:</strong> Capacitar a usuarios de reportes sobre nuevos formatos y campos.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 5: DELIBERACIÓN CHG-2025-047 -->
+        <div class="section">
+            <div class="section-title">CAMBIO 3: CHG-2025-047 - Integración con Nuevo Proveedor de Servicios en la Nube</div>
+            
+            <div class="info-grid">
+                <div class="info-box">
+                    <div class="info-label">Fecha de Solicitud</div>
+                    <div class="info-value">[Fecha]</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Fecha Requerida</div>
+                    <div class="info-value">[Fecha]</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Responsable del Análisis</div>
+                    <div class="info-value">[Nombre - Líder Técnico]</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Estimación de Esfuerzo</div>
+                    <div class="info-value">200 horas / $15,000 USD</div>
+                </div>
+            </div>
+
+            <div class="deliberation-box">
+                <h4>✓ Alineación con Objetivos del Proyecto</h4>
+                <p>Parcialmente alineado. Si bien mejora escalabilidad, requiere clarificación sobre cómo se alinea con estrategia actual de infraestructura. Existen preguntas sobre compatibilidad con arquitectura existente.</p>
+            </div>
+
+            <div class="deliberation-box">
+                <h4>📅 Impacto en Cronograma y Presupuesto</h4>
+                <p><strong>Cronograma:</strong> Impacto potencial de 30 días. El proyecto NO tiene suficiente holgura para absorber este impacto. Riesgo de retraso en hitos críticos. <br><strong>Presupuesto:</strong> Costo de $15,000 USD. EXCEDE la reserva de contingencia disponible.</p>
+            </div>
+
+            <div class="deliberation-box">
+                <h4>💰 Valor de Negocio vs. Costo</h4>
+                <p><strong>Valor:</strong> Moderado a Alto en el largo plazo (reducción de costos de infraestructura). <br><strong>Costo:</strong> Inicial: $15,000 USD. Requiere análisis más detallado de beneficios a largo plazo versus inversión inicial.</p>
+            </div>
+
+            <div class="deliberation-box">
+                <h4>👥 Disponibilidad de Recursos</h4>
+                <p>Preocupación significativa. El Líder Técnico y especialista en DevOps están comprometidos en actividades críticas actuales. Requeriría contratación externa o retrasar otras actividades.</p>
+            </div>
+
+            <div class="deliberation-box">
+                <h4>⚠️ Riesgos Asociados</h4>
+                <p><strong>Riesgo de Integración:</strong> Alto - Cambio significativo a infraestructura existente. <br><strong>Riesgo de Compatibilidad:</strong> Medio - Requiere validación extensiva. <br><strong>Riesgo de Seguridad:</strong> Medio - Requiere auditoría de seguridad del nuevo proveedor. <br><strong>Riesgo de Datos:</strong> Medio - Migración de datos requiere estrategia cuidadosa.</p>
+            </div>
+
+            <!-- VOTACIÓN CHG-2025-047 -->
+            <div class="voting-section" style="margin-top: 20px;">
+                <div class="voting-item">
+                    <div class="voting-label">A Favor</div>
+                    <div class="voting-bar">
+                        <div class="voting-fill" style="width: 33%;">2 votos</div>
+                    </div>
+                    <div class="voting-count">2/6</div>
+                </div>
+                <div class="voting-item">
+                    <div class="voting-label">En Contra</div>
+                    <div class="voting-bar">
+                        <div class="voting-fill" style="width: 33%; background-color: #ef4444;">2 votos</div>
+                    </div>
+                    <div class="voting-count">2/6</div>
+                </div>
+                <div class="voting-item">
+                    <div class="voting-label">Diferir</div>
+                    <div class="voting-bar">
+                        <div class="voting-fill" style="width: 34%; background-color: #f59e0b;">2 votos</div>
+                    </div>
+                    <div class="voting-count">2/6</div>
+                </div>
+            </div>
+
+            <!-- DECISIÓN CHG-2025-047 -->
+            <div class="decision-box">
+                <div class="decision-title">DECISIÓN FINAL</div>
+                <span class="decision-badge deferred">⏸ DIFERIDO</span>
+                <p style="font-size: 13px; color: #555; line-height: 1.6; margin-bottom: 15px;">
+                    El Comité de Control de Cambios <strong>DIFIERE</strong> la evaluación de esta solicitud a la siguiente fase del proyecto.
+                </p>
+                <p style="font-size: 13px; color: #555; line-height: 1.6;">
+                    <strong>Justificación:</strong> El comité reconoce el valor potencial del cambio pero considera que el momento no es óptimo debido a: (1) Impacto significativo en cronograma actual, (2) Presupuesto insuficiente en fase actual, (3) Recursos técnicos no disponibles, (4) Necesidad de análisis más profundo de riesgos de integración y seguridad.
+                </p>
+            </div>
+
+            <!-- CONDICIONES CHG-2025-047 -->
+            <div class="conditions-box">
+                <h4>📋 Acciones Requeridas Antes de Próxima Evaluación</h4>
+                <ul class="conditions-list">
+                    <li><strong>Análisis Arquitectónico Completo:</strong> Realizar estudio detallado de compatibilidad con arquitectura actual.</li>
+                    <li><strong>Análisis de Seguridad:</strong> Auditoria de seguridad del proveedor de nube candidato.</li>
+                    <li><strong>Plan de Migración Detallado:</strong> Incluir estrategia de migración de datos, rollback y validación.</li>
+                    <li><strong>Análisis de Costo-Beneficio:</strong> ROI detallado considerando beneficios a 3, 5 y 10 años.</li>
+                    <li><strong>Evaluación de Recursos:</strong> Confirmar disponibilidad de equipo técnico especializado.</li>
+                    <li><strong>Revisión en Fase Posterior:</strong> Reevaluar cuando proyecto actual esté en fase de estabilización (estimado mes 9).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 6: RESUMEN DE DECISIONES -->
+        <div class="section">
+            <div class="section-title">RESUMEN EJECUTIVO DE DECISIONES</div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nº Control</th>
+                        <th>Descripción</th>
+                        <th>Decisión</th>
+                        <th>Votación</th>
+                        <th>Plazo Inicio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>CHG-2025-045</strong></td>
+                        <td>Implementación 2FA</td>
+                        <td><span style="background-color: #d1fae5; color: #065f46; padding: 4px 8px; border-radius: 3px; font-weight: 600; font-size: 11px;">APROBADO</span></td>
+                        <td>5-1-0</td>
+                        <td>[Fecha inicio]</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CHG-2025-046</strong></td>
+                        <td>Modificación reportes financieros</td>
+                        <td><span style="background-color: #d1fae5; color: #065f46; padding: 4px 8px; border-radius: 3px; font-weight: 600; font-size: 11px;">APROBADO</span></td>
+                        <td>6-0-0</td>
+                        <td>[Fecha inicio]</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CHG-2025-047</strong></td>
+                        <td>Integración proveedor nube</td>
+                        <td><span style="background-color: #fef3c7; color: #78350f; padding: 4px 8px; border-radius: 3px; font-weight: 600; font-size: 11px;">DIFERIDO</span></td>
+                        <td>2-2-2</td>
+                        <td>Fase Posterior</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="background-color: #f0f4ff; padding: 15px; border-radius: 4px; margin-top: 15px; font-size: 13px;">
+                <strong>Total de Solicitudes Evaluadas:</strong> 3<br>
+                <strong>Aprobadas:</strong> 2 | <strong>Rechazadas:</strong> 0 | <strong>Diferidas:</strong> 1 | <strong>Información Requerida:</strong> 0<br>
+                <strong>Inversión Total Aprobada:</strong> $10,500 USD
+            </div>
+        </div>
+
+        <!-- SECCIÓN 7: ACCIONES Y RESPONSABLES -->
+        <div class="section">
+            <div class="section-title">PLAN DE ACCIONES Y RESPONSABLES</div>
+            
+            <div class="action-items">
+                <h4>Acciones de Seguimiento Derivadas de esta Sesión:</h4>
+                
+                <div class="action-item">
+                    <div class="action-responsible">Gerente Proyecto</div>
+                    <div class="action-task">Notificar formalmente a solicitantes sobre decisiones y crear planes de implementación para CHG-045 y CHG-046</div>
+                    <div class="action-date">[Fecha límite]</div>
+                </div>
+
+                <div class="action-item">
+                    <div class="action-responsible">Líder Técnico</div>
+                    <div class="action-task">Iniciar planificación detallada de CHG-045 (2FA). Coordinar con especialista en seguridad para auditoría</div>
+                    <div class="action-date">[Fecha límite]</div>
+                </div>
+
+                <div class="action-item">
+                    <div class="action-responsible">Responsable Financiero</div>
+                    <div class="action-task">Coordinar implementación de CHG-046. Establecer seguimiento de ROI según acuerdo</div>
+                    <div class="action-date">[Fecha límite]</div>
+                </div>
+
+                <div class="action-item">
+                    <div class="action-responsible">Líder Técnico</div>
+                    <div class="action-task">Elaborar análisis arquitectónico completo de CHG-047 para próxima evaluación</div>
+                    <div class="action-date">[Fecha límite]</div>
+                </div>
+
+                <div class="action-item">
+                    <div class="action-responsible">Secretario CCC</div>
+                    <div class="action-task">Distribuir acta de sesión y notificaciones formales a todos los interesados</div>
+                    <div class="action-date">[Dentro de 2 días hábiles]</div>
+                </div>
+
+                <div class="action-item">
+                    <div class="action-responsible">Gerente Proyecto</div>
+                    <div class="action-task">Calendarizar próxima sesión CCC considerando revisión de CHG-047 en fase posterior</div>
+                    <div class="action-date">[Dentro de 3 días]</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 8: NOTIFICACIÓN A INTERESADOS -->
+        <div class="section">
+            <div class="section-title">NOTIFICACIÓN FORMAL A INTERESADOS</div>
+            
+            <div class="notification-section">
+                <h4>📧 Notificación Oficial del CCC</h4>
+                <p style="margin-bottom: 12px;">Se procederá a notificar formalmente a los siguientes interesados sobre las decisiones tomadas en esta sesión:</p>
+                <ul class="notification-list">
+                    <li>✓ <strong>Solicitantes de Cambios:</strong> Notificación sobre decisión de su cambio con justificación</li>
+                    <li>✓ <strong>Líder del Proyecto:</strong> Instrucciones para proceder con planificación e implementación</li>
+                    <li>✓ <strong>Junta Directiva/Sponsors:</strong> Reporte ejecutivo de decisiones y inversión total aprobada</li>
+                    <li>✓ <strong>Gerente de Portafolio:</strong> Actualización de portafolio de cambios aprobados</li>
+                    <li>✓ <strong>Equipo de Proyecto:</strong> Información sobre cambios aprobados y cronograma de implementación</li>
+                    <li>✓ <strong>Usuarios Afectados:</strong> Comunicación sobre cambios que les afectan (a través del Gerente de Proyecto)</li>
+                    <li>✓ <strong>Departamentos Relacionados:</strong> Departamento de Finanzas, Seguridad, Operaciones (según corresponda)</li>
+                </ul>
+            </div>
+
+            <div style="background-color: #f0f4ff; border-left: 4px solid #6366f1; padding: 15px; border-radius: 4px; margin-top: 15px;">
+                <strong>Medio de Notificación:</strong> Correo electrónico oficial + Copia de esta acta<br>
+                <strong>Plazo de Notificación:</strong> Dentro de 2 días hábiles desde esta sesión<br>
+                <strong>Responsable:</strong> Secretario del CCC / Gerente del Proyecto
+            </div>
+        </div>
+
+        <!-- SECCIÓN 9: OBSERVACIONES Y COMENTARIOS -->
+        <div class="section">
+            <div class="section-title">OBSERVACIONES Y COMENTARIOS DEL COMITÉ</div>
+            
+            <div class="remarks-box">
+                <h4>Puntos Relevantes Documentados:</h4>
+                <div class="remarks-content">[Observaciones adicionales del comité]
+- El comité reconoce la importancia de la seguridad (CHG-045) como prioritario en la estrategia del proyecto.
+- Se sugiere mejorar la capacidad de análisis temprano de cambios para evitar sorpresas de presupuesto/cronograma.
+- Es necesario revisar el proceso de planificación actual para identificar capacidad disponible.
+- Se recomienda establecer comunicación más frecuente con el cliente para alinear expectativas de cambios.
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 10: FIRMAS -->
+        <div class="section">
+            <div class="section-title">FIRMAS Y APROBACIÓN DEL ACTA</div>
+            
+            <div class="signature-area">
+                <div class="signature-block">
+                    <div class="signature-role">Presidente CCC</div>
+                    <div style="border-top: 1px solid #999; padding-top: 10px; margin-top: 40px;">
+                        <div class="signature-name">[Nombre y Cédula]</div>
+                        <div style="font-size: 11px; color: #999; margin-top: 3px;">Firma</div>
+                    </div>
+                    <div style="font-size: 12px; color: #555; margin-top: 20px;">Fecha: _______________</div>
+                </div>
+
+                <div class="signature-block">
+                    <div class="signature-role">Secretario / Elaboró Acta</div>
+                    <div style="border-top: 1px solid #999; padding-top: 10px; margin-top: 40px;">
+                        <div class="signature-name">[Nombre y Cédula]</div>
+                        <div style="font-size: 11px; color: #999; margin-top: 3px;">Firma</div>
+                    </div>
+                    <div style="font-size: 12px; color: #555; margin-top: 20px;">Fecha: _______________</div>
+                </div>
+
+                <div class="signature-block">
+                    <div class="signature-role">Gerente del Proyecto</div>
+                    <div style="border-top: 1px solid #999; padding-top: 10px; margin-top: 40px;">
+                        <div class="signature-name">[Nombre y Cédula]</div>
+                        <div style="font-size: 11px; color: #999; margin-top: 3px;">Firma</div>
+                    </div>
+                    <div style="font-size: 12px; color: #555; margin-top: 20px;">Fecha: _______________</div>
+                </div>
+            </div>
+
+            <div style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #e5e7eb;">
+                <h4 style="color: #6366f1; font-size: 13px; font-weight: 600; margin-bottom: 15px;">Firmas Adicionales de Miembros del CCC (Opcional):</h4>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rol del Miembro</th>
+                            <th>Nombre</th>
+                            <th>Firma</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Líder Técnico</strong></td>
+                            <td>_______________________</td>
+                            <td>_______________________</td>
+                            <td>_______________________</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Responsable de Calidad</strong></td>
+                            <td>_______________________</td>
+                            <td>_______________________</td>
+                            <td>_______________________</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gerente de Operaciones</strong></td>
+                            <td>_______________________</td>
+                            <td>_______________________</td>
+                            <td>_______________________</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Responsable Financiero</strong></td>
+                            <td>_______________________</td>
+                            <td>_______________________</td>
+                            <td>_______________________</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <p><strong>DOCUMENTO CONFIDENCIAL - GESTIÓN DE CAMBIOS</strong></p>
+            <p>Acta Oficial del Comité de Control de Cambios (CCC)<br>
+            Esta acta constituye un registro legal de las decisiones tomadas y aprobaciones otorgadas.<br>
+            Generado: [Fecha y Hora] | Versión: 1.0 | Distribuición: Limitada a Interesados Autorizados</p>
+        </div>
+    </div>
+</body>
+</html>

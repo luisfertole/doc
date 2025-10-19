@@ -1,0 +1,1851 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan de Implementación de Cambio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1050px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 4px solid  #1e40af;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #1e40af;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .status-banner {
+            background: linear-gradient(135deg,  #1e40af 0%,  #1e40af 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            background-color: #fff;
+            color: #1e40af;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 12px;
+        }
+        
+        .plan-info {
+            background: linear-gradient(135deg, #1e40af 0%,  #1e40af 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .info-item h3 {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        
+        .info-item p {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .section {
+            margin-bottom: 35px;
+        }
+        
+        .section-title {
+            background-color:  #1e40af;
+            color: white;
+            padding: 12px 15px;
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #fbbf24;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .info-grid.full {
+            grid-template-columns: 1fr;
+        }
+        
+        .info-box {
+            border: 1px solid #d1d5db;
+            padding: 15px;
+            border-radius: 4px;
+            background-color: #f9fafb;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color:  #1e40af;
+            font-size: 12px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        
+        .info-value {
+            color: #555;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: white;
+        }
+        
+        th {
+            background-color: #ecfdf5;
+            color:  #1e40af;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            border: 1px solid #d1d5db;
+            text-transform: uppercase;
+        }
+        
+        td {
+            padding: 11px 12px;
+            border: 1px solid #e5e7eb;
+            font-size: 13px;
+            color: #555;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+        
+        .activity-card {
+            border-left: 4px solid  #1e40af;
+            background-color: #f0fdf4;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        
+        .activity-number {
+            display: inline-block;
+            background-color:  #1e40af;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-weight: 700;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        
+        .activity-title {
+            font-weight: 700;
+            color:  #1e40af;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .activity-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        
+        .activity-detail {
+            border-left: 2px solid #d1fae5;
+            padding-left: 10px;
+        }
+        
+        .activity-detail-label {
+            font-weight: 600;
+            color: #047857;
+            margin-bottom: 3px;
+        }
+        
+        .activity-detail-value {
+            color: #555;
+        }
+        
+        .resource-box {
+            border: 1px solid #d1d5db;
+            padding: 12px;
+            border-radius: 4px;
+            background-color: #f9fafb;
+            margin-bottom: 10px;
+        }
+        
+        .resource-type {
+            font-weight: 600;
+            color:  #1e40af;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+        
+        .resource-items {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .timeline-bar {
+            background-color: #ecfdf5;
+            border: 1px solid #86efac;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .timeline-date {
+            background-color: #1e40af;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 11px;
+            white-space: nowrap;
+            margin-right: 15px;
+            min-width: 100px;
+        }
+        
+        .timeline-phase {
+            flex: 1;
+            font-size: 13px;
+            color: #555;
+        }
+        
+        .timeline-phase-title {
+            font-weight: 600;
+            color:  #1e40af;
+            margin-bottom: 3px;
+        }
+        
+        .acceptance-criterion {
+            background-color: #f0fdf4;
+            border-left: 3px solid #10b981;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 3px;
+        }
+        
+        .criterion-item {
+            display: flex;
+            align-items: flex-start;
+            font-size: 13px;
+            color: #555;
+        }
+        
+        .criterion-check {
+            color:  #1e40af;
+            font-weight: 700;
+            margin-right: 8px;
+            margin-top: 2px;
+        }
+        
+        .test-case {
+            background-color: #f9fafb;
+            border: 1px solid #d1d5db;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+        
+        .test-case-id {
+            font-weight: 600;
+            color:  #1e40af;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+        
+        .test-case-content {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .comm-card {
+            background-color: #f0fdf4;
+            border-left: 4px solid  #1e40af;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        
+        .comm-title {
+            font-weight: 700;
+            color:  #1e40af;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+        
+        .comm-details {
+            font-size: 12px;
+            color: #555;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .risk-box {
+            background-color: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        
+        .risk-title {
+            font-weight: 700;
+            color: #92400e;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+        
+        .risk-content {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .milestone {
+            background-color: #ecfdf5;
+            border: 2px solid #10b981;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 13px;
+            color: #555;
+        }
+        
+        .milestone strong {
+            color: #1e40af;
+        }
+        
+        .rollback-procedure {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            border-left: 4px solid #ef4444;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        
+        .rollback-title {
+            font-weight: 700;
+            color: #dc2626;
+            margin-bottom: 10px;
+        }
+        
+        .rollback-step {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .rollback-step::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #ef4444;
+            font-weight: bold;
+        }
+        
+        .approval-section {
+            background-color: #f9fafb;
+            border: 2px solid  #1e40af;
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 30px;
+        }
+        
+        .signature-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+            margin-top: 25px;
+        }
+        
+        .signature-block {
+            text-align: center;
+        }
+        
+        .signature-role {
+            font-weight: 600;
+            color:  #1e40af;
+            font-size: 12px;
+            margin-bottom: 30px;
+        }
+        
+        .signature-line {
+            border-top: 1px solid #999;
+            padding-top: 8px;
+            font-size: 12px;
+            color: #555;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e5e7eb;
+            font-size: 11px;
+            color: #999;
+            text-align: center;
+        }
+        
+        .highlight-box {
+            background-color: #fef08a;
+            border-left: 4px solid #fbbf24;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            color: #666;
+        }
+        
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                max-width: 100%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ENCABEZADO -->
+        <div class="header">
+            <h1>📋 PLAN DE IMPLEMENTACIÓN DE CAMBIO</h1>
+            <p>Gestión de Cambios - Proyecto Software</p>
+        </div>
+
+        <!-- BANNER DE ESTADO -->
+        <div class="status-banner">
+            <div>
+                <strong style="font-size: 16px;">Cambio APROBADO</strong>
+                <p style="font-size: 12px; margin-top: 3px; opacity: 0.9;">Plan Listo para Ejecución</p>
+            </div>
+            <span class="status-badge">✓ ACTIVO</span>
+        </div>
+
+        <!-- INFORMACIÓN DEL PLAN -->
+        <div class="plan-info">
+            <div class="info-item">
+                <h3>Nº de Cambio</h3>
+                <p>CHG-2025-045</p>
+            </div>
+            <div class="info-item">
+                <h3>Descripción</h3>
+                <p>Autenticación 2FA</p>
+            </div>
+            <div class="info-item">
+                <h3>Inicio Planificado</h3>
+                <p>[Fecha Inicio]</p>
+            </div>
+            <div class="info-item">
+                <h3>Fin Planificado</h3>
+                <p>[Fecha Fin]</p>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 1: INFORMACIÓN GENERAL DEL PLAN -->
+        <div class="section">
+            <div class="section-title">INFORMACIÓN GENERAL DEL PLAN</div>
+            
+            <div class="info-grid">
+                <div class="info-box">
+                    <div class="info-label">Gerente del Proyecto</div>
+                    <div class="info-value">[Nombre del Gerente del Proyecto]</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Líder Técnico de Implementación</div>
+                    <div class="info-value">[Nombre del Líder Técnico]</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Departamento/Proyecto</div>
+                    <div class="info-value">[Nombre del Proyecto]</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Prioridad</div>
+                    <div class="info-value">🔴 ALTA</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Aprobado por CCC</div>
+                    <div class="info-value">Fecha: [Fecha Aprobación]</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Inversión Total Autorizada</div>
+                    <div class="info-value">$8,000 USD / 120 horas</div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <strong>📌 NOTA IMPORTANTE:</strong> Este plan debe ser ejecutado exactamente como se describe. Cualquier desviación significativa requiere actualización formal y nueva aprobación del CCC.
+            </div>
+        </div>
+
+        <!-- SECCIÓN 2: DESCRIPCIÓN DEL CAMBIO Y OBJETIVOS -->
+        <div class="section">
+            <div class="section-title">DESCRIPCIÓN DEL CAMBIO Y OBJETIVOS</div>
+            
+            <div class="info-box" style="margin-bottom: 15px;">
+                <div class="info-label">Descripción Ejecutiva</div>
+                <div class="info-value">
+                    Implementación de autenticación de dos factores (2FA) para fortalecer la seguridad del acceso a la plataforma. Incluye integración con proveedores de autenticación, desarrollo de interfaz de usuario, implementación de APIs de verificación y capacitación de usuarios.
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Objetivo Específico</th>
+                        <th>Descripción</th>
+                        <th>Métrica de Éxito</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Mejorar Seguridad</strong></td>
+                        <td>Reducir riesgos de acceso no autorizado mediante verificación de dos factores</td>
+                        <td>100% de usuarios con 2FA disponible</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cumplimiento Normativo</strong></td>
+                        <td>Satisfacer requisitos de GDPR, SOC 2 y regulaciones internas</td>
+                        <td>Auditoría de seguridad aprobada</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Experiencia de Usuario</strong></td>
+                        <td>Implementar 2FA de forma intuitiva y no invasiva</td>
+                        <td>Tasa de adopción >85% en mes 1</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Disponibilidad del Servicio</strong></td>
+                        <td>Mantener disponibilidad >99.9% durante implementación</td>
+                        <td>Cero downtime no planeado</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SECCIÓN 3: ACTIVIDADES DETALLADAS -->
+        <div class="section">
+            <div class="section-title">ACTIVIDADES DETALLADAS PASO A PASO</div>
+
+            <h3 style="color: #059669; font-size: 14px; font-weight: 600; margin-bottom: 15px; margin-top: 20px;">FASE 1: PREPARACIÓN Y PLANIFICACIÓN (Semana 1)</h3>
+
+            <div class="activity-card">
+                <div class="activity-title">
+                    <span class="activity-number">1</span>
+                    Kickoff de Implementación
+                </div>
+                <div class="activity-details">
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Responsable</div>
+                        <div class="activity-detail-value">Gerente del Proyecto</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Duración</div>
+                        <div class="activity-detail-value">4 horas</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Fechas</div>
+                        <div class="activity-detail-value">[Fecha inicio]-[+1 día]</div>
+                    </div>
+                </div>
+                <div style="margin-top: 10px; font-size: 13px; color: #555;">
+                    <strong>Descripción:</strong> Reunión con equipo técnico, stakeholders y cliente para alineación de objetivos, cronograma y expectativas. Confirmación de recursos, accesos y disponibilidad.<br>
+                    <strong>Entregables:</strong> Acta de kickoff, lista de asistentes, confirmación de compromisos
+                </div>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-title">
+                    <span class="activity-number">2</span>
+                    Configuración de Ambiente de Desarrollo
+                </div>
+                <div class="activity-details">
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Responsable</div>
+                        <div class="activity-detail-value">DevOps / Líder Técnico</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Duración</div>
+                        <div class="activity-detail-value">8 horas</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Fechas</div>
+                        <div class="activity-detail-value">[Fecha inicio]-[+2 días]</div>
+                    </div>
+                </div>
+                <div style="margin-top: 10px; font-size: 13px; color: #555;">
+                    <strong>Descripción:</strong> Preparar ambientes de desarrollo (DEV), testing (QA) y staging (PRE). Instalar herramientas de 2FA, configurar bases de datos, preparar infraestructura.<br>
+                    <strong>Entregables:</strong> Ambientes listos con acceso confirmado, documentación de configuración
+                </div>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-title">
+                    <span class="activity-number">3</span>
+                    Revisión de Especificaciones Técnicas
+                </div>
+                <div class="activity-details">
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Responsable</div>
+                        <div class="activity-detail-value">Líder Técnico / Arquitecto</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Duración</div>
+                        <div class="activity-detail-value">6 horas</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Fechas</div>
+                        <div class="activity-detail-value">[Fecha inicio]-[+3 días]</div>
+                    </div>
+                </div>
+                <div style="margin-top: 10px; font-size: 13px; color: #555;">
+                    <strong>Descripción:</strong> Revisar en detalle arquitectura de 2FA, APIs, flujos de autenticación, integración con sistemas existentes. Validar decisiones de diseño.<br>
+                    <strong>Entregables:</strong> Diseño detallado aprobado, diagramas de arquitectura, documentación técnica
+                </div>
+            </div>
+
+            <h3 style="color: #059669; font-size: 14px; font-weight: 600; margin-bottom: 15px; margin-top: 20px;">FASE 2: DESARROLLO (Semanas 2-4)</h3>
+
+            <div class="activity-card">
+                <div class="activity-title">
+                    <span class="activity-number">4</span>
+                    Desarrollo de Backend (APIs de Autenticación)
+                </div>
+                <div class="activity-details">
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Responsable</div>
+                        <div class="activity-detail-value">Desarrollador Senior 1</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Duración</div>
+                        <div class="activity-detail-value">32 horas</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Fechas</div>
+                        <div class="activity-detail-value">[Fecha +4 días]-[+12 días]</div>
+                    </div>
+                </div>
+                <div style="margin-top: 10px; font-size: 13px; color: #555;">
+                    <strong>Descripción:</strong> Desarrollar APIs REST para verificación de 2FA, integración con proveedores de autenticación (Google Authenticator, Authy), generación de códigos, validación y gestión de sesiones.<br>
+                    <strong>Entregables:</strong> Código fuente, testes unitarios, documentación API, build exitoso
+                </div>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-title">
+                    <span class="activity-number">5</span>
+                    Desarrollo de Frontend (Interfaz de Usuario)
+                </div>
+                <div class="activity-details">
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Responsable</div>
+                        <div class="activity-detail-value">Desarrollador Senior 2</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Duración</div>
+                        <div class="activity-detail-value">24 horas</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Fechas</div>
+                        <div class="activity-detail-value">[Fecha +4 días]-[+12 días]</div>
+                    </div>
+                </div>
+                <div style="margin-top: 10px; font-size: 13px; color: #555;">
+                    <strong>Descripción:</strong> Desarrollar pantallas de configuración de 2FA, flujos de verificación, interfaz de recuperación. Asegurar experiencia de usuario intuitiva y accesible.<br>
+                    <strong>Entregables:</strong> Componentes UI, integración con APIs, testes de componentes, prototipo funcional
+                </div>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-title">
+                    <span class="activity-number">6</span>
+                    Integración y Verificación Técnica
+                </div>
+                <div class="activity-details">
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Responsable</div>
+                        <div class="activity-detail-value">Líder Técnico</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Duración</div>
+                        <div class="activity-detail-value">8 horas</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Fechas</div>
+                        <div class="activity-detail-value">[Fecha +13 días]-[+15 días]</div>
+                    </div>
+                </div>
+                <div style="margin-top: 10px; font-size: 13px; color: #555;">
+                    <strong>Descripción:</strong> Integrar backend y frontend, ejecutar testes de integración, verificar flujos end-to-end, validar con especialista en seguridad.<br>
+                    <strong>Entregables:</strong> Build integrada, reporte de testes de integración, código listo para QA
+                </div>
+            </div>
+
+            <h3 style="color: #059669; font-size: 14px; font-weight: 600; margin-bottom: 15px; margin-top: 20px;">FASE 3: PRUEBAS (Semanas 5-6)</h3>
+
+            <div class="activity-card">
+                <div class="activity-title">
+                    <span class="activity-number">7</span>
+                    Pruebas Funcionales y de Calidad
+                </div>
+                <div class="activity-details">
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Responsable</div>
+                        <div class="activity-detail-value">QA Lead / Tester</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Duración</div>
+                        <div class="activity-detail-value">16 horas</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Fechas</div>
+                        <div class="activity-detail-value">[Fecha +16 días]-[+18 días]</div>
+                    </div>
+                </div>
+                <div style="margin-top: 10px; font-size: 13px; color: #555;">
+                    <strong>Descripción:</strong> Ejecutar plan de testes funcionales, testes de regresión, validar criterios de aceptación. Documentar defectos encontrados.<br>
+                    <strong>Entregables:</strong> Reporte de testes, log de ejecución, defectos documentados
+                </div>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-title">
+                    <span class="activity-number">8</span>
+                    Pruebas de Seguridad
+                </div>
+                <div class="activity-details">
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Responsable</div>
+                        <div class="activity-detail-value">Especialista en Seguridad</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Duración</div>
+                        <div class="activity-detail-value">12 horas</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Fechas</div>
+                        <div class="activity-detail-value">[Fecha +19 días]-[+20 días]</div>
+                    </div>
+                </div>
+                <div style="margin-top: 10px; font-size: 13px; color: #555;">
+                    <strong>Descripción:</strong> Realizar auditoría de seguridad, pruebas de penetración, validación de cumplimiento GDPR/SOC2, análisis de vulnerabilidades.<br>
+                    <strong>Entregables:</strong> Reporte de seguridad, hallazgos documentados, certificación de cumplimiento
+                </div>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-title">
+                    <span class="activity-number">9</span>
+                    Pruebas de Aceptación del Usuario (UAT)
+                </div>
+                <div class="activity-details">
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Responsable</div>
+                        <div class="activity-detail-value">Representante del Cliente</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Duración</div>
+                        <div class="activity-detail-value">8 horas</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Fechas</div>
+                        <div class="activity-detail-value">[Fecha +21 días]-[+22 días]</div>
+                    </div>
+                </div>
+                <div style="margin-top: 10px; font-size: 13px; color: #555;">
+                    <strong>Descripción:</strong> Validación por cliente/usuarios finales en ambiente de staging. Verificar que 2FA funciona según requisitos. Recopilación de feedback.<br>
+                    <strong>Entregables:</strong> Acta de UAT, feedback de usuarios, sign-off de aceptación
+                </div>
+            </div>
+
+            <h3 style="color: #059669; font-size: 14px; font-weight: 600; margin-bottom: 15px; margin-top: 20px;">FASE 4: CAPACITACIÓN (Semana 7)</h3>
+
+            <div class="activity-card">
+                <div class="activity-title">
+                    <span class="activity-number">10</span>
+                    Desarrollo de Materiales de Capacitación
+                </div>
+                <div class="activity-details">
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Responsable</div>
+                        <div class="activity-detail-value">Especialista en Capacitación</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Duración</div>
+                        <div class="activity-detail-value">6 horas</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Fechas</div>
+                        <div class="activity-detail-value">[Fecha +23 días]-[+24 días]</div>
+                    </div>
+                </div>
+                <div style="margin-top: 10px; font-size: 13px; color: #555;">
+                    <strong>Descripción:</strong> Crear manuales de usuario, guías paso a paso, videos tutoriales, preguntas frecuentes sobre cómo usar 2FA.<br>
+                    <strong>Entregables:</strong> Manuales PDF, videos, guías interactivas, material en múltiples idiomas
+                </div>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-title">
+                    <span class="activity-number">11</span>
+                    Sesiones de Capacitación Presencial/Virtual
+                </div>
+                <div class="activity-details">
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Responsable</div>
+                        <div class="activity-detail-value">Gerente Proyecto / Capacitador</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Duración</div>
+                        <div class="activity-detail-value">10 horas</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Fechas</div>
+                        <div class="activity-detail-value">[Fecha +25 días]-[+26 días]</div>
+                    </div>
+                </div>
+                <div style="margin-top: 10px; font-size: 13px; color: #555;">
+                    <strong>Descripción:</strong> Realizar 3 sesiones de capacitación para usuarios finales, administradores y soporte técnico. Incluir Q&A y ejercicios prácticos.<br>
+                    <strong>Entregables:</strong> Listas de asistencia, material de capacitación distribuido, registros de sesiones
+                </div>
+            </div>
+
+            <h3 style="color: #059669; font-size: 14px; font-weight: 600; margin-bottom: 15px; margin-top: 20px;">FASE 5: IMPLEMENTACIÓN EN PRODUCCIÓN (Semana 8)</h3>
+
+            <div class="activity-card">
+                <div class="activity-title">
+                    <span class="activity-number">12</span>
+                    Preparación para Lanzamiento
+                </div>
+                <div class="activity-details">
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Responsable</div>
+                        <div class="activity-detail-value">DevOps / Líder Técnico</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Duración</div>
+                        <div class="activity-detail-value">4 horas</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Fechas</div>
+                        <div class="activity-detail-value">[Fecha +27 días]</div>
+                    </div>
+                </div>
+                <div style="margin-top: 10px; font-size: 13px; color: #555;">
+                    <strong>Descripción:</strong> Preparar ambiente de producción, validar backups, verificar procedimientos de rollback, confirmar comunicaciones finales.<br>
+                    <strong>Entregables:</strong> Checklist de pre-lanzamiento completado, infraestructura validada, runbook preparado
+                </div>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-title">
+                    <span class="activity-number">13</span>
+                    Lanzamiento a Producción (Implementación)
+                </div>
+                <div class="activity-details">
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Responsable</div>
+                        <div class="activity-detail-value">DevOps / Líder Técnico</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Duración</div>
+                        <div class="activity-detail-value">6 horas</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Fechas</div>
+                        <div class="activity-detail-value">[Fecha +28 días] (Horario: 22:00 - 04:00)</div>
+                    </div>
+                </div>
+                <div style="margin-top: 10px; font-size: 13px; color: #555;">
+                    <strong>Descripción:</strong> Desplegar 2FA a producción siguiendo runbook. Activación gradual (soft launch). Monitoreo en tiempo real. Disponibilidad de equipo para rollback inmediato si es necesario.<br>
+                    <strong>Entregables:</strong> Deployment log, confirmación de éxito, métricas iniciales de operación
+                </div>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-title">
+                    <span class="activity-number">14</span>
+                    Monitoreo Post-Lanzamiento (48 horas)
+                </div>
+                <div class="activity-details">
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Responsable</div>
+                        <div class="activity-detail-value">Líder Técnico / Soporte</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Duración</div>
+                        <div class="activity-detail-value">16 horas</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Fechas</div>
+                        <div class="activity-detail-value">[Fecha +29 días]-[+31 días]</div>
+                    </div>
+                </div>
+                <div style="margin-top: 10px; font-size: 13px; color: #555;">
+                    <strong>Descripción:</strong> Monitoreo continuo de métricas, alertas, rendimiento. Equipo disponible 24/7. Recopilación de incidentes. Ajustes menores si es necesario.<br>
+                    <strong>Entregables:</strong> Reporte de monitoreo, métricas de performance, incidentes resueltos
+                </div>
+            </div>
+
+            <h3 style="color: #059669; font-size: 14px; font-weight: 600; margin-bottom: 15px; margin-top: 20px;">FASE 6: CIERRE Y EVALUACIÓN (Semana 9)</h3>
+
+            <div class="activity-card">
+                <div class="activity-title">
+                    <span class="activity-number">15</span>
+                    Evaluación de Implementación
+                </div>
+                <div class="activity-details">
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Responsable</div>
+                        <div class="activity-detail-value">Gerente Proyecto</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Duración</div>
+                        <div class="activity-detail-value">4 horas</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Fechas</div>
+                        <div class="activity-detail-value">[Fecha +32 días]</div>
+                    </div>
+                </div>
+                <div style="margin-top: 10px; font-size: 13px; color: #555;">
+                    <strong>Descripción:</strong> Evaluar éxito de implementación contra criterios de aceptación. Recopilación de feedback del equipo. Lecciones aprendidas.<br>
+                    <strong>Entregables:</strong> Reporte de evaluación, análisis de KPIs, reporte de lecciones aprendidas
+                </div>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-title">
+                    <span class="activity-number">16</span>
+                    Cierre Formal del Cambio
+                </div>
+                <div class="activity-details">
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Responsable</div>
+                        <div class="activity-detail-value">Gerente Proyecto</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Duración</div>
+                        <div class="activity-detail-value">2 horas</div>
+                    </div>
+                    <div class="activity-detail">
+                        <div class="activity-detail-label">Fechas</div>
+                        <div class="activity-detail-value">[Fecha +33 días]</div>
+                    </div>
+                </div>
+                <div style="margin-top: 10px; font-size: 13px; color: #555;">
+                    <strong>Descripción:</strong> Ceremonia de cierre, agradecimiento al equipo, actualización de documentación, cierre formal en sistema de gestión de cambios.<br>
+                    <strong>Entregables:</strong> Acta de cierre, toda documentación centralizada, actualización de catálogo de cambios
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 4: CRONOGRAMA DE EJECUCIÓN -->
+        <div class="section">
+            <div class="section-title">CRONOGRAMA DE EJECUCIÓN</div>
+            
+            <div class="timeline-bar">
+                <div class="timeline-item">
+                    <div class="timeline-date">Sem 1</div>
+                    <div class="timeline-phase">
+                        <div class="timeline-phase-title">PREPARACIÓN</div>
+                        Kickoff, configuración de ambientes, especificaciones técnicas
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">Sem 2-4</div>
+                    <div class="timeline-phase">
+                        <div class="timeline-phase-title">DESARROLLO</div>
+                        Backend, Frontend, integración técnica. Entregables: Código + Testes
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">Sem 5-6</div>
+                    <div class="timeline-phase">
+                        <div class="timeline-phase-title">PRUEBAS</div>
+                        QA, Seguridad, UAT. Entregables: Reportes de testes, Hallazgos
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">Sem 7</div>
+                    <div class="timeline-phase">
+                        <div class="timeline-phase-title">CAPACITACIÓN</div>
+                        Materiales, sesiones presenciales/virtuales. Entregables: Documentación
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">Sem 8</div>
+                    <div class="timeline-phase">
+                        <div class="timeline-phase-title">IMPLEMENTACIÓN</div>
+                        Lanzamiento a producción, monitoreo 48hrs. Entregables: Deployment log
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">Sem 9</div>
+                    <div class="timeline-phase">
+                        <div class="timeline-phase-title">CIERRE</div>
+                        Evaluación, lecciones aprendidas, cierre formal
+                    </div>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fase</th>
+                        <th>Inicio</th>
+                        <th>Fin</th>
+                        <th>Duración</th>
+                        <th>Hito Clave</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Preparación</strong></td>
+                        <td>[Fecha]</td>
+                        <td>[Fecha + 7 días]</td>
+                        <td>1 semana</td>
+                        <td>Kickoff completado</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Desarrollo</strong></td>
+                        <td>[Fecha + 8 días]</td>
+                        <td>[Fecha + 21 días]</td>
+                        <td>2 semanas</td>
+                        <td>Build integrada lista para QA</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pruebas</strong></td>
+                        <td>[Fecha + 22 días]</td>
+                        <td>[Fecha + 29 días]</td>
+                        <td>1.5 semanas</td>
+                        <td>Sign-off de aceptación</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Capacitación</strong></td>
+                        <td>[Fecha + 30 días]</td>
+                        <td>[Fecha + 34 días]</td>
+                        <td>1 semana</td>
+                        <td>100% usuarios capacitados</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Lanzamiento</strong></td>
+                        <td>[Fecha + 35 días]</td>
+                        <td>[Fecha + 38 días]</td>
+                        <td>1 semana</td>
+                        <td>Producción operativa 48hrs</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cierre</strong></td>
+                        <td>[Fecha + 39 días]</td>
+                        <td>[Fecha + 41 días]</td>
+                        <td>3 días</td>
+                        <td>Cambio cerrado formalmente</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="milestone" style="margin-top: 15px;">
+                <strong>⭐ HITO CRÍTICO:</strong> Aprobación de UAT (Fecha estimada: [Fecha + 29 días]) - Requerida para proceder a producción
+            </div>
+        </div>
+
+        <!-- SECCIÓN 5: RECURSOS NECESARIOS -->
+        <div class="section">
+            <div class="section-title">RECURSOS NECESARIOS</div>
+            
+            <h3 style="color: #059669; font-size: 14px; font-weight: 600; margin-bottom: 15px;">Recursos Humanos:</h3>
+
+            <div class="resource-box">
+                <div class="resource-type">👨‍💼 Liderazgo y Coordinación</div>
+                <div class="resource-items">
+                    • Gerente del Proyecto: 100% dedicación (40 horas/semana)<br>
+                    • Líder Técnico: 80% dedicación (32 horas/semana)
+                </div>
+            </div>
+
+            <div class="resource-box">
+                <div class="resource-type">👨‍💻 Desarrollo</div>
+                <div class="resource-items">
+                    • Desarrollador Senior Backend: 100% dedicación (32 horas)<br>
+                    • Desarrollador Senior Frontend: 100% dedicación (24 horas)<br>
+                    • DevOps/Infraestructura: 60% dedicación (6 horas/semana)
+                </div>
+            </div>
+
+            <div class="resource-box">
+                <div class="resource-type">🧪 Calidad y Pruebas</div>
+                <div class="resource-items">
+                    • QA Lead: 100% dedicación (16 horas)<br>
+                    • Especialista en Seguridad: 80% dedicación (12 horas)
+                </div>
+            </div>
+
+            <div class="resource-box">
+                <div class="resource-type">📚 Capacitación y Comunicación</div>
+                <div class="resource-items">
+                    • Especialista en Capacitación: 100% dedicación (6 horas)<br>
+                    • Especialista en Comunicaciones: 50% dedicación (4 horas/semana)
+                </div>
+            </div>
+
+            <h3 style="color: #059669; font-size: 14px; font-weight: 600; margin-bottom: 15px; margin-top: 20px;">Recursos Técnicos/Tecnológicos:</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Recurso Técnico</th>
+                        <th>Descripción</th>
+                        <th>Cantidad/Especificación</th>
+                        <th>Proveedor/Licencia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Proveedor 2FA</strong></td>
+                        <td>Servicio de autenticación de dos factores</td>
+                        <td>Licencia para [X] usuarios</td>
+                        <td>Google/Authy/Okta (seleccionar)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ambientes</strong></td>
+                        <td>Servidores DEV, QA, PRE y PROD</td>
+                        <td>4 ambientes con 16GB RAM c/u</td>
+                        <td>Cloud (AWS/Azure) o On-Premise</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Base de Datos</strong></td>
+                        <td>Almacenamiento de secretos 2FA</td>
+                        <td>Base de datos segura (PostgreSQL/MongoDB)</td>
+                        <td>Existente o nueva según configuración</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Herramientas de Desarrollo</strong></td>
+                        <td>IDE, Git, Control de versiones</td>
+                        <td>Acceso a repositorio central</td>
+                        <td>GitHub/GitLab/BitBucket</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Herramientas de Testing</strong></td>
+                        <td>Testing frameworks, automatización</td>
+                        <td>Selenium, Jest, PyTest</td>
+                        <td>Open Source</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Monitoreo</strong></td>
+                        <td>Monitoreo de infraestructura y aplicación</td>
+                        <td>Dashboard en tiempo real</td>
+                        <td>Datadog/NewRelic/Grafana</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="color: #059669; font-size: 14px; font-weight: 600; margin-bottom: 15px; margin-top: 20px;">Presupuesto Detallado:</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Concepto</th>
+                        <th>Cantidad</th>
+                        <th>Costo Unitario</th>
+                        <th>Costo Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Recursos Humanos (120 horas)</strong></td>
+                        <td>120 h</td>
+                        <td>$50 USD/h</td>
+                        <td>$6,000 USD</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Licencias 2FA (primer año)</strong></td>
+                        <td>1</td>
+                        <td>$1,500 USD</td>
+                        <td>$1,500 USD</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Infraestructura/Cloud</strong></td>
+                        <td>1</td>
+                        <td>$300 USD</td>
+                        <td>$300 USD</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Herramientas y Servicios</strong></td>
+                        <td>1</td>
+                        <td>$200 USD</td>
+                        <td>$200 USD</td>
+                    </tr>
+                    <tr style="background-color: #ecfdf5; font-weight: bold;">
+                        <td colspan="3" style="text-align: right;">TOTAL</td>
+                        <td>$8,000 USD</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SECCIÓN 6: CRITERIOS DE ACEPTACIÓN -->
+        <div class="section">
+            <div class="section-title">CRITERIOS DE ACEPTACIÓN</div>
+            
+            <div class="acceptance-criterion">
+                <div class="criterion-item">
+                    <div class="criterion-check">✓</div>
+                    <div>
+                        <strong>Funcionalidad 2FA Operativa:</strong> Todos los usuarios pueden configurar y usar autenticación de dos factores sin errores. Tasa de éxito >99.5%
+                    </div>
+                </div>
+            </div>
+
+            <div class="acceptance-criterion">
+                <div class="criterion-item">
+                    <div class="criterion-check">✓</div>
+                    <div>
+                        <strong>Performance Aceptable:</strong> Tiempo de respuesta para verificación 2FA <2 segundos en el percentil 95. Disponibilidad del servicio 2FA >99.9%
+                    </div>
+                </div>
+            </div>
+
+            <div class="acceptance-criterion">
+                <div class="criterion-item">
+                    <div class="criterion-check">✓</div>
+                    <div>
+                        <strong>Seguridad Validada:</strong> Auditoría de seguridad aprobada sin hallazgos críticos. Cumplimiento GDPR y SOC 2 verificado
+                    </div>
+                </div>
+            </div>
+
+            <div class="acceptance-criterion">
+                <div class="criterion-item">
+                    <div class="criterion-check">✓</div>
+                    <div>
+                        <strong>Compatibilidad:</strong> 2FA funciona en Chrome, Firefox, Safari, Edge (últimas 2 versiones). Compatible con iOS y Android
+                    </div>
+                </div>
+            </div>
+
+            <div class="acceptance-criterion">
+                <div class="criterion-item">
+                    <div class="criterion-check">✓</div>
+                    <div>
+                        <strong>Sin Regresiones:</strong> Todos los testes de regresión pasan. Funcionalidades existentes no se ven afectadas
+                    </div>
+                </div>
+            </div>
+
+            <div class="acceptance-criterion">
+                <div class="criterion-item">
+                    <div class="criterion-check">✓</div>
+                    <div>
+                        <strong>Documentación Completa:</strong> Manuales de usuario, guías de administrador, documentación técnica actualizada
+                    </div>
+                </div>
+            </div>
+
+            <div class="acceptance-criterion">
+                <div class="criterion-item">
+                    <div class="criterion-check">✓</div>
+                    <div>
+                        <strong>Adopción de Usuarios:</strong> >85% de usuarios activos han configurado 2FA dentro del primer mes post-lanzamiento
+                    </div>
+                </div>
+            </div>
+
+            <div class="acceptance-criterion">
+                <div class="criterion-item">
+                    <div class="criterion-check">✓</div>
+                    <div>
+                        <strong>Soporte Operativo:</strong> Equipo de soporte capacitado y disponible. Procedimientos de resolución documentados
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 7: PLAN DE PRUEBAS -->
+        <div class="section">
+            <div class="section-title">PLAN DE PRUEBAS ESPECÍFICO</div>
+            
+            <h3 style="color: #059669; font-size: 14px; font-weight: 600; margin-bottom: 15px;">Estrategia de Pruebas:</h3>
+
+            <div style="background-color: #f0fdf4; border-left: 4px solid #10b981; padding: 15px; border-radius: 4px; margin-bottom: 20px; font-size: 13px; color: #555;">
+                <strong>Enfoque:</strong> Pruebas multi-capa desde unitarias hasta UAT. Énfasis en seguridad y flujos críticos de usuario. Automatización donde sea posible. Pruebas de carga y estrés para validar capacidad.
+            </div>
+
+            <h3 style="color: #059669; font-size: 14px; font-weight: 600; margin-bottom: 15px;">Casos de Prueba Principales:</h3>
+
+            <div class="test-case">
+                <div class="test-case-id">TC-001: Registro de Dispositivo 2FA</div>
+                <div class="test-case-content">
+                    <strong>Precondición:</strong> Usuario logueado en aplicación<br>
+                    <strong>Pasos:</strong> 1. Ir a Configuración de Seguridad 2. Click "Habilitar 2FA" 3. Escanear código QR con app de autenticación 4. Ingresar código de 6 dígitos<br>
+                    <strong>Resultado Esperado:</strong> 2FA habilitado correctamente, usuario confirmado
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-case-id">TC-002: Login con Verificación 2FA</div>
+                <div class="test-case-content">
+                    <strong>Precondición:</strong> Usuario con 2FA habilitado<br>
+                    <strong>Pasos:</strong> 1. Ingresar usuario/contraseña 2. Sistema solicita código 2FA 3. Usuario ingresa código correcto<br>
+                    <strong>Resultado Esperado:</strong> Login exitoso, sesión establecida
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-case-id">TC-003: Rechazo de Código 2FA Inválido</div>
+                <div class="test-case-content">
+                    <strong>Precondición:</strong> Usuario en pantalla de verificación 2FA<br>
+                    <strong>Pasos:</strong> 1. Ingresar código incorrecto 2. Reintentar 3 veces<br>
+                    <strong>Resultado Esperado:</strong> Error mostrado después de 3 intentos, cuenta bloqueada temporalmente (15 min)
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-case-id">TC-004: Recuperación de Códigos de Backup</div>
+                <div class="test-case-content">
+                    <strong>Precondición:</strong> Usuario con 2FA habilitado, código generador perdido<br>
+                    <strong>Pasos:</strong> 1. Click "He perdido acceso" 2. Ingresar código de backup 3. Generar nuevos códigos<br>
+                    <strong>Resultado Esperado:</strong> Acceso recuperado, nuevos códigos generados
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-case-id">TC-005: Deshabilitación de 2FA</div>
+                <div class="test-case-content">
+                    <strong>Precondición:</strong> Usuario con 2FA activo<br>
+                    <strong>Pasos:</strong> 1. Ir a Configuración 2. Click "Deshabilitar 2FA" 3. Confirmar con contraseña<br>
+                    <strong>Resultado Esperado:</strong> 2FA deshabilitado correctamente
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-case-id">TC-006: Performance - Tiempo de Respuesta</div>
+                <div class="test-case-content">
+                    <strong>Precondición:</strong> Sistema bajo carga normal<br>
+                    <strong>Pasos:</strong> 1. Medir tiempo de respuesta para verificación 2FA con 100 usuarios simultáneos<br>
+                    <strong>Resultado Esperado:</strong> Tiempo promedio <1.5 seg, P95 <2 seg
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-case-id">TC-007: Seguridad - Fuerza de Códigos</div>
+                <div class="test-case-content">
+                    <strong>Precondición:</strong> Sistema de 2FA en operación<br>
+                    <strong>Pasos:</strong> 1. Análisis criptográfico de códigos generados<br>
+                    <strong>Resultado Esperado:</strong> Códigos de 6 dígitos generados aleatoriamente, imposibles de predecir
+                </div>
+            </div>
+
+            <div class="test-case">
+                <div class="test-case-id">TC-008: Compatibilidad - Navegadores</div>
+                <div class="test-case-content">
+                    <strong>Precondición:</strong> Código desplegado<br>
+                    <strong>Pasos:</strong> 1. Pruebas en Chrome, Firefox, Safari, Edge (últimas 2 versiones)<br>
+                    <strong>Resultado Esperado:</strong> Funcionalidad idéntica en todos los navegadores
+                </div>
+            </div>
+
+            <h3 style="color: #059669; font-size: 14px; font-weight: 600; margin-bottom: 15px; margin-top: 20px;">Matriz de Pruebas:</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tipo de Prueba</th>
+                        <th>Responsable</th>
+                        <th>Cobertura</th>
+                        <th>Fecha Planificada</th>
+                        <th>Criterio de Éxito</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Pruebas Unitarias</strong></td>
+                        <td>Desarrolladores</td>
+                        <td>APIs de 2FA, validaciones</td>
+                        <td>[Fecha +12 días]</td>
+                        <td>>85% cobertura código</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pruebas de Integración</strong></td>
+                        <td>Líder Técnico</td>
+                        <td>Flujos end-to-end 2FA</td>
+                        <td>[Fecha +15 días]</td>
+                        <td>100% flujos críticos exitosos</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pruebas Funcionales</strong></td>
+                        <td>QA</td>
+                        <td>Casos de uso definidos</td>
+                        <td>[Fecha +18 días]</td>
+                        <td>>95% testes pasan</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pruebas de Regresión</strong></td>
+                        <td>QA Automation</td>
+                        <td>Suite de testes automatizados</td>
+                        <td>[Fecha +19 días]</td>
+                        <td>100% suite pasa sin nuevos defectos</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pruebas de Seguridad</strong></td>
+                        <td>Especialista Seguridad</td>
+                        <td>OWASP Top 10, encriptación</td>
+                        <td>[Fecha +20 días]</td>
+                        <td>Cero hallazgos críticos/altos</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pruebas de Carga</strong></td>
+                        <td>DevOps/QA</td>
+                        <td>1000+ usuarios simultáneos</td>
+                        <td>[Fecha +20 días]</td>
+                        <td>Sistema soporta sin degradación</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pruebas de Aceptación (UAT)</strong></td>
+                        <td>Cliente/Usuarios</td>
+                        <td>Requisitos de negocio</td>
+                        <td>[Fecha +22 días]</td>
+                        <td>Sign-off formal del cliente</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SECCIÓN 8: ESTRATEGIA DE COMUNICACIÓN -->
+        <div class="section">
+            <div class="section-title">ESTRATEGIA DE COMUNICACIÓN DURANTE IMPLEMENTACIÓN</div>
+            
+            <h3 style="color: #059669; font-size: 14px; font-weight: 600; margin-bottom: 15px;">Objetivos de Comunicación:</h3>
+
+            <div style="background-color: #f0fdf4; border-left: 4px solid #10b981; padding: 15px; border-radius: 4px; margin-bottom: 20px; font-size: 13px; color: #555;">
+                • Mantener informados a todas las partes interesadas<br>
+                • Generar conciencia sobre la importancia de 2FA<br>
+                • Facilitar adopción rápida y exitosa<br>
+                • Minimizar impacto negativo en experiencia de usuario<br>
+                • Establecer canal de feedback y soporte
+            </div>
+
+            <h3 style="color: #059669; font-size: 14px; font-weight: 600; margin-bottom: 15px;">Plan de Comunicaciones por Fase:</h3>
+
+            <div class="comm-card">
+                <div class="comm-title">📢 FASE 1: PRE-LANZAMIENTO (4 semanas antes)</div>
+                <div class="comm-details">
+                    <div>
+                        <strong>Audiencia:</strong> Todos los usuarios<br>
+                        <strong>Mensaje:</strong> "Mejoraremos tu seguridad con 2FA"
+                    </div>
+                    <div>
+                        <strong>Canal:</strong> Email, intranet, banner en aplicación<br>
+                        <strong>Frecuencia:</strong> 1 vez/semana
+                    </div>
+                </div>
+            </div>
+
+            <div class="comm-card">
+                <div class="comm-title">📢 FASE 2: EDUCACIÓN (2 semanas antes)</div>
+                <div class="comm-details">
+                    <div>
+                        <strong>Audiencia:</strong> Usuarios, administradores<br>
+                        <strong>Mensaje:</strong> "Aprende cómo configurar 2FA"
+                    </div>
+                    <div>
+                        <strong>Canal:</strong> Webinars, videos tutoriales, documentación<br>
+                        <strong>Frecuencia:</strong> 3 sesiones presenciales
+                    </div>
+                </div>
+            </div>
+
+            <div class="comm-card">
+                <div class="comm-title">📢 FASE 3: PREPARACIÓN (1 semana antes)</div>
+                <div class="comm-details">
+                    <div>
+                        <strong>Audiencia:</strong> Usuarios, soporte técnico<br>
+                        <strong>Mensaje:</strong> "La semana que viene se activa 2FA"
+                    </div>
+                    <div>
+                        <strong>Canal:</strong> Email directo, SMS, notificación in-app<br>
+                        <strong>Frecuencia:</strong> Múltiples mensajes
+                    </div>
+                </div>
+            </div>
+
+            <div class="comm-card">
+                <div class="comm-title">📢 FASE 4: LANZAMIENTO (día del lanzamiento)</div>
+                <div class="comm-details">
+                    <div>
+                        <strong>Audiencia:</strong> Usuarios, stakeholders, soporte<br>
+                        <strong>Mensaje:</strong> "2FA ahora disponible - ¡Configura hoy!"
+                    </div>
+                    <div>
+                        <strong>Canal:</strong> Email, SMS, notificación emergente, chat de soporte 24/7<br>
+                        <strong>Frecuencia:</strong> Continua durante 48 horas
+                    </div>
+                </div>
+            </div>
+
+            <div class="comm-card">
+                <div class="comm-title">📢 FASE 5: POST-LANZAMIENTO (primeras 4 semanas)</div>
+                <div class="comm-details">
+                    <div>
+                        <strong>Audiencia:</strong> Usuarios que no han adoptado 2FA<br>
+                        <strong>Mensaje:</strong> "¿Necesitas ayuda configurando 2FA?"
+                    </div>
+                    <div>
+                        <strong>Canal:</strong> Email segmentado, FAQ interactivas, soporte técnico<br>
+                        <strong>Frecuencia:</strong> 1 email/semana a usuarios sin 2FA
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="color: #059669; font-size: 14px; font-weight: 600; margin-bottom: 15px; margin-top: 20px;">Materiales de Comunicación a Desarrollar:</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Material</th>
+                        <th>Descripción</th>
+                        <th>Responsable</th>
+                        <th>Fecha Entrega</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Email Kickoff</strong></td>
+                        <td>Anuncio formal de la implementación de 2FA</td>
+                        <td>Comunicaciones</td>
+                        <td>[Fecha - 28 días]</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Manual de Usuario</strong></td>
+                        <td>Guía paso a paso para configurar y usar 2FA (PDF)</td>
+                        <td>Capacitación</td>
+                        <td>[Fecha - 14 días]</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Videos Tutoriales</strong></td>
+                        <td>3-5 videos cortos (<5 min) explicando cómo usar 2FA</td>
+                        <td>Comunicaciones</td>
+                        <td>[Fecha - 10 días]</td>
+                    </tr>
+                    <tr>
+                        <td><strong>FAQ Interactiva</strong></td>
+                        <td>Preguntas frecuentes y respuestas sobre 2FA</td>
+                        <td>Soporte</td>
+                        <td>[Fecha - 10 días]</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Infografía Seguridad</strong></td>
+                        <td>Visual explicando beneficios de 2FA</td>
+                        <td>Comunicaciones</td>
+                        <td>[Fecha - 21 días]</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Email Pre-lanzamiento</strong></td>
+                        <td>Recordatorio 1 semana antes de activación</td>
+                        <td>Comunicaciones</td>
+                        <td>[Fecha - 7 días]</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Runbook de Soporte</strong></td>
+                        <td>Guía para equipo de soporte técnico</td>
+                        <td>Equipo Técnico</td>
+                        <td>[Fecha - 14 días]</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="color: #059669; font-size: 14px; font-weight: 600; margin-bottom: 15px; margin-top: 20px;">Canales y Frecuencia de Comunicación:</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Canal</th>
+                        <th>Audiencia Primaria</th>
+                        <th>Frecuencia</th>
+                        <th>Responsable</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Email Corporativo</strong></td>
+                        <td>Todos los usuarios</td>
+                        <td>3 mensajes (antes, día de, después)</td>
+                        <td>Comunicaciones</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Intranet/Portal</strong></td>
+                        <td>Empleados internos</td>
+                        <td>Actualización diaria con info 2FA</td>
+                        <td>Comunicaciones</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Notificaciones In-App</strong></td>
+                        <td>Usuarios activos</td>
+                        <td>2 semanas previas, luego según adopción</td>
+                        <td>Producto</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SMS/WhatsApp</strong></td>
+                        <td>Usuarios críticos/VIP</td>
+                        <td>Día de lanzamiento</td>
+                        <td>Comunicaciones</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Webinar/Sesiones Vivo</strong></td>
+                        <td>Usuarios interesados</td>
+                        <td>3 sesiones (pre-lanzamiento)</td>
+                        <td>Capacitación</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Chat/Slack</strong></td>
+                        <td>Equipo interno</td>
+                        <td>Actualizaciones diarias</td>
+                        <td>Líder Proyecto</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Soporte Técnico (Help Desk)</strong></td>
+                        <td>Usuarios con dudas</td>
+                        <td>24/7 durante lanzamiento</td>
+                        <td>Soporte</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="color: #059669; font-size: 14px; font-weight: 600; margin-bottom: 15px; margin-top: 20px;">Métricas de Comunicación a Monitorear:</h3>
+
+            <div style="background-color: #ecfdf5; border: 1px solid #86efac; padding: 15px; border-radius: 4px; font-size: 13px; color: #555; margin-bottom: 15px;">
+                📊 <strong>Tasa de apertura de emails:</strong> Objetivo >40%<br>
+                📊 <strong>Click-through rate en materiales:</strong> Objetivo >25%<br>
+                📊 <strong>Visualizaciones de videos tutoriales:</strong> Objetivo >70% de usuarios<br>
+                📊 <strong>Preguntas en FAQ/Soporte:</strong> Monitorear volumen y tendencias<br>
+                📊 <strong>Tasa de adopción 2FA:</strong> Objetivo >85% en mes 1
+            </div>
+        </div>
+
+        <!-- SECCIÓN 9: GESTIÓN DE RIESGOS Y CONTINGENCIA -->
+        <div class="section">
+            <div class="section-title">GESTIÓN DE RIESGOS Y PLAN DE CONTINGENCIA</div>
+            
+            <h3 style="color: #059669; font-size: 14px; font-weight: 600; margin-bottom: 15px;">Riesgos Identificados y Mitigación:</h3>
+
+            <div class="risk-box">
+                <div class="risk-title">⚠️ Riesgo: Rechazo de Usuarios a 2FA</div>
+                <div class="risk-content">
+                    <strong>Probabilidad:</strong> Media | <strong>Impacto:</strong> Medio<br>
+                    <strong>Mitigación:</strong> Plan de comunicación temprana, beneficios claros, capacitación, soporte proactivo<br>
+                    <strong>Contingencia:</strong> Si adopción <70% en mes 1, realizar campañas adicionales dirigidas
+                </div>
+            </div>
+
+            <div class="risk-box">
+                <div class="risk-title">⚠️ Riesgo: Problemas de Compatibilidad con Navegadores</div>
+                <div class="risk-content">
+                    <strong>Probabilidad:</strong> Baja | <strong>Impacto:</strong> Alto<br>
+                    <strong>Mitigación:</strong> Pruebas exhaustivas en múltiples navegadores, compatibilidad backward<br>
+                    <strong>Contingencia:</strong> Soporte técnico 24/7, fallback a métodos alternativos de autenticación
+                </div>
+            </div>
+
+            <div class="risk-box">
+                <div class="risk-title">⚠️ Riesgo: Vulnerabilidades de Seguridad Descubiertas</div>
+                <div class="risk-content">
+                    <strong>Probabilidad:</strong> Baja | <strong>Impacto:</strong> Crítico<br>
+                    <strong>Mitigación:</strong> Auditoría de seguridad profesional, pentest, revisión de código experto<br>
+                    <strong>Contingencia:</strong> Plan de parche de emergencia listo, rollback inmediato si es necesario
+                </div>
+            </div>
+
+            <div class="risk-box">
+                <div class="risk-title">⚠️ Riesgo: Pérdida de Acceso de Usuarios (olvidar código/dispositivo)</div>
+                <div class="risk-content">
+                    <strong>Probabilidad:</strong> Media | <strong>Impacto:</strong> Medio<br>
+                    <strong>Mitigación:</strong> Códigos de recuperación/backup, opciones de recuperación alternativas<br>
+                    <strong>Contingencia:</strong> Proceso de recuperación manual documentado, soporte prioritario
+                </div>
+            </div>
+
+            <div class="risk-box">
+                <div class="risk-title">⚠️ Riesgo: Problemas de Rendimiento bajo Carga</div>
+                <div class="risk-content">
+                    <strong>Probabilidad:</strong> Baja | <strong>Impacto:</strong> Alto<br>
+                    <strong>Mitigación:</strong> Pruebas de carga antes del lanzamiento, monitoreo en tiempo real<br>
+                    <strong>Contingencia:</strong> Escalado de recursos, lanzamiento gradual si es necesario
+                </div>
+            </div>
+
+            <h3 style="color: #059669; font-size: 14px; font-weight: 600; margin-bottom: 15px; margin-top: 20px;">Procedimiento de Rollback (Si es Necesario):</h3>
+
+            <div class="rollback-procedure">
+                <div class="rollback-title">🔄 PASOS DE ROLLBACK DE EMERGENCIA</div>
+                
+                <div class="rollback-step">
+                    <strong>Paso 1 - Decisión de Rollback:</strong> Si se detectan problemas críticos (>100 incidentes de severidad alta en 1 hora, indisponibilidad >30 min), se activa procedimiento de rollback
+                </div>
+
+                <div class="rollback-step">
+                    <strong>Paso 2 - Notificación:</strong> Líder Técnico notifica al Gerente del Proyecto y CCC en menos de 15 min de detectado el problema
+                </div>
+
+                <div class="rollback-step">
+                    <strong>Paso 3 - Decisión de Escalada:</strong> Gerente Proyecto + Líder Técnico deciden si procede rollback inmediato o esperar investigación
+                </div>
+
+                <div class="rollback-step">
+                    <strong>Paso 4 - Ejecución de Rollback:</strong> DevOps ejecuta rollback al código anterior. Tiempo máximo: 30 minutos
+                </div>
+
+                <div class="rollback-step">
+                    <strong>Paso 5 - Comunicación:</strong> Comunicaciones notifica a usuarios sobre la acción. "Experimentamos problemas técnicos que hemos resuelto. 2FA volverá a estar disponible próximamente"
+                </div>
+
+                <div class="rollback-step">
+                    <strong>Paso 6 - Investigación Post-Rollback:</strong> Equipo técnico investiga raíz del problema. Reporte debe completarse en 24 horas
+                </div>
+
+                <div class="rollback-step">
+                    <strong>Paso 7 - Re-planificación:</strong> Si se requiere rollback, CCC revisará plan e identificará lo que debe cambiar antes de reintentar
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 10: APROBACIÓN Y FIRMAS -->
+        <div class="section">
+            <div class="approval-section">
+                <h3 style="color: #059669; font-size: 14px; font-weight: 600; margin-bottom: 20px; text-transform: uppercase;">✓ APROBACIÓN DEL PLAN DE IMPLEMENTACIÓN</h3>
+                
+                <p style="font-size: 13px; color: #555; margin-bottom: 20px; line-height: 1.6;">
+                    Este Plan de Implementación de Cambio ha sido revisado y aprobado por los responsables. Todos los involucrados comprenden sus roles, responsabilidades y cronograma. Se autoriza proceder con la implementación conforme a lo aquí especificado.
+                </p>
+
+                <div class="signature-area">
+                    <div class="signature-block">
+                        <div class="signature-role">Gerente del Proyecto</div>
+                        <div style="border-top: 1px solid #999; padding-top: 10px; margin-top: 40px;">
+                            <div style="font-size: 12px; color: #555;">[Nombre]</div>
+                            <div style="font-size: 11px; color: #999; margin-top: 3px;">Firma</div>
+                        </div>
+                        <div style="font-size: 12px; color: #555; margin-top: 20px;">Fecha: _______________</div>
+                    </div>
+
+                    <div class="signature-block">
+                        <div class="signature-role">Líder Técnico</div>
+                        <div style="border-top: 1px solid #999; padding-top: 10px; margin-top: 40px;">
+                            <div style="font-size: 12px; color: #555;">[Nombre]</div>
+                            <div style="font-size: 11px; color: #999; margin-top: 3px;">Firma</div>
+                        </div>
+                        <div style="font-size: 12px; color: #555; margin-top: 20px;">Fecha: _______________</div>
+                    </div>
+
+                    <div class="signature-block">
+                        <div class="signature-role">Aprobado por CCC</div>
+                        <div style="border-top: 1px solid #999; padding-top: 10px; margin-top: 40px;">
+                            <div style="font-size: 12px; color: #555;">[Nombre Presidente CCC]</div>
+                            <div style="font-size: 11px; color: #999; margin-top: 3px;">Firma</div>
+                        </div>
+                        <div style="font-size: 12px; color: #555; margin-top: 20px;">Fecha: _______________</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <p><strong>PLAN DE IMPLEMENTACIÓN - DOCUMENTO OFICIAL</strong></p>
+            <p>Este plan constituye el documento de ejecución oficial para el cambio CHG-2025-045<br>
+            Cualquier desviación significativa requiere aprobación formal del CCC<br>
+            Generado: [Fecha y Hora] | Versión: 1.0 | Estado: APROBADO</p>
+        </div>
+    </div>
+</body>
+</html>
