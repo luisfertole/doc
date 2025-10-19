@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Impacto - Proyecto</title>
+    <style>
+        @media print {
+            body { margin: 0; }
+            .page-break { page-break-before: always; }
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 20mm;
+            background: white;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            margin: 0;
+            font-size: 28px;
+        }
+        
+        .header .subtitle {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        .metadata {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        
+        .metadata table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .metadata td {
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+        
+        .metadata td:first-child {
+            font-weight: bold;
+            width: 30%;
+        }
+        
+        .section {
+            margin-bottom: 35px;
+        }
+        
+        .section h2 {
+            background: #2c3e50;
+            color: white;
+            padding: 10px 15px;
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            border-radius: 3px;
+        }
+        
+        .section h3 {
+            color: #2c3e50;
+            font-size: 16px;
+            margin: 20px 0 10px 0;
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+        }
+        
+        .impact-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        .impact-table th {
+            background: #34495e;
+            color: white;
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .impact-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        
+        .impact-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        
+        .impact-level {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 3px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        .high { background: #e74c3c; color: white; }
+        .medium { background: #f39c12; color: white; }
+        .low { background: #27ae60; color: white; }
+        
+        .recommendation-box {
+            background: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .risk-box {
+            background: #fadbd8;
+            border-left: 4px solid #e74c3c;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .summary-card {
+            background: white;
+            border: 2px solid #ecf0f1;
+            border-radius: 5px;
+            padding: 15px;
+        }
+        
+        .summary-card h4 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+        
+        .summary-card .value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3498db;
+        }
+        
+        ul {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📊 ANÁLISIS DE IMPACTO</h1>
+        <div class="subtitle">Evaluación Integral de Cambios Propuestos</div>
+    </div>
+
+    <div class="metadata">
+        <table>
+            <tr>
+                <td><strong>Proyecto:</strong></td>
+                <td>[Nombre del Proyecto]</td>
+            </tr>
+            <tr>
+                <td><strong>Cambio/Solicitud:</strong></td>
+                <td>[ID y Descripción del Cambio]</td>
+            </tr>
+            <tr>
+                <td><strong>Fecha de Análisis:</strong></td>
+                <td>18 de Octubre, 2025</td>
+            </tr>
+            <tr>
+                <td><strong>Analista:</strong></td>
+                <td>[Nombre del Analista]</td>
+            </tr>
+            <tr>
+                <td><strong>Solicitante:</strong></td>
+                <td>[Nombre del Solicitante]</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>📋 Resumen Ejecutivo</h2>
+        <p>Este documento presenta el análisis integral del impacto generado por los cambios propuestos, evaluando aspectos técnicos, de alcance, tiempo, costo, calidad, seguridad y riesgos. El objetivo es proporcionar información fundamentada para la toma de decisiones.</p>
+        
+        <div class="summary-grid">
+            <div class="summary-card">
+                <h4>Nivel de Impacto Global</h4>
+                <div class="value">MEDIO-ALTO</div>
+            </div>
+            <div class="summary-card">
+                <h4>Esfuerzo Estimado</h4>
+                <div class="value">45-60 días</div>
+            </div>
+            <div class="summary-card">
+                <h4>Costo Adicional Estimado</h4>
+                <div class="value">$85,000</div>
+            </div>
+            <div class="summary-card">
+                <h4>Recomendación</h4>
+                <div class="value">APROBAR CON CONDICIONES</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>⚙️ 1. Impacto Técnico</h2>
+        
+        <h3>Componentes Afectados</h3>
+        <table class="impact-table">
+            <thead>
+                <tr>
+                    <th>Componente</th>
+                    <th>Tipo de Cambio</th>
+                    <th>Nivel de Impacto</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Módulo de Autenticación</td>
+                    <td>Modificación Mayor</td>
+                    <td><span class="impact-level high">ALTO</span></td>
+                </tr>
+                <tr>
+                    <td>API de Pagos</td>
+                    <td>Modificación Menor</td>
+                    <td><span class="impact-level medium">MEDIO</span></td>
+                </tr>
+                <tr>
+                    <td>Base de Datos (Esquema)</td>
+                    <td>Adición de Tablas</td>
+                    <td><span class="impact-level medium">MEDIO</span></td>
+                </tr>
+                <tr>
+                    <td>Interfaz de Usuario</td>
+                    <td>Rediseño Parcial</td>
+                    <td><span class="impact-level medium">MEDIO</span></td>
+                </tr>
+                <tr>
+                    <td>Servicio de Notificaciones</td>
+                    <td>Integración Nueva</td>
+                    <td><span class="impact-level low">BAJO</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Complejidad Técnica</h3>
+        <ul>
+            <li><strong>Complejidad Algorítmica:</strong> Media-Alta. Requiere implementación de nuevos algoritmos de cifrado y validación.</li>
+            <li><strong>Integración:</strong> Alta. Se necesita integrar con 3 servicios externos adicionales.</li>
+            <li><strong>Migración de Datos:</strong> Media. Aproximadamente 2 millones de registros requieren transformación.</li>
+            <li><strong>Refactorización:</strong> Alta. 40% del código base necesita refactorización para mantener coherencia.</li>
+        </ul>
+
+        <h3>Dependencias</h3>
+        <ul>
+            <li>Actualización de Framework principal (v2.5 a v3.1)</li>
+            <li>Integración con servicio de terceros (OAuth 2.1 Provider)</li>
+            <li>Dependencia de aprobación de cambios en infraestructura</li>
+            <li>Coordinación con equipo de DevOps para nuevos pipelines</li>
+            <li>Disponibilidad de APIs externas en entorno de desarrollo</li>
+        </ul>
+
+        <div class="recommendation-box">
+            <strong>💡 Recomendación Técnica:</strong> Implementar en fases incrementales. Fase 1: Actualización de framework y refactorización base (3 semanas). Fase 2: Desarrollo de nuevas funcionalidades (4 semanas). Fase 3: Integración y pruebas (2 semanas).
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🎯 2. Impacto en Alcance</h2>
+        
+        <h3>Funcionalidades Agregadas</h3>
+        <ul>
+            <li>Sistema de autenticación de dos factores (2FA)</li>
+            <li>Panel de analíticas en tiempo real</li>
+            <li>Exportación de reportes en múltiples formatos (PDF, Excel, CSV)</li>
+            <li>Sistema de notificaciones push</li>
+            <li>Módulo de auditoría de acciones de usuario</li>
+        </ul>
+
+        <h3>Funcionalidades Modificadas</h3>
+        <ul>
+            <li>Proceso de login: Adición de validación biométrica opcional</li>
+            <li>Dashboard principal: Nuevo diseño responsive</li>
+            <li>Gestión de perfiles: Campos adicionales para compliance</li>
+            <li>Módulo de reportes: Mejora en performance y UI</li>
+        </ul>
+
+        <h3>Funcionalidades Eliminadas</h3>
+        <ul>
+            <li>Login mediante redes sociales legacy (Facebook, Google+)</li>
+            <li>Exportación a formato XML (deprecado)</li>
+            <li>Panel de estadísticas básico (reemplazado por analíticas avanzadas)</li>
+        </ul>
+
+        <table class="impact-table">
+            <thead>
+                <tr>
+                    <th>Métrica</th>
+                    <th>Antes</th>
+                    <th>Después</th>
+                    <th>Variación</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Funcionalidades Totales</td>
+                    <td>42</td>
+                    <td>46</td>
+                    <td>+9.5%</td>
+                </tr>
+                <tr>
+                    <td>Pantallas</td>
+                    <td>28</td>
+                    <td>33</td>
+                    <td>+17.8%</td>
+                </tr>
+                <tr>
+                    <td>Endpoints API</td>
+                    <td>85</td>
+                    <td>102</td>
+                    <td>+20%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section page-break">
+        <h2>⏱️ 3. Impacto en Tiempo</h2>
+        
+        <h3>Estimación de Esfuerzo por Actividad</h3>
+        <table class="impact-table">
+            <thead>
+                <tr>
+                    <th>Actividad</th>
+                    <th>Días Estimados</th>
+                    <th>Recursos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Análisis y Diseño Detallado</td>
+                    <td>8 días</td>
+                    <td>1 Arquitecto, 1 Analista</td>
+                </tr>
+                <tr>
+                    <td>Actualización de Framework</td>
+                    <td>10 días</td>
+                    <td>2 Desarrolladores Senior</td>
+                </tr>
+                <tr>
+                    <td>Desarrollo Backend</td>
+                    <td>20 días</td>
+                    <td>3 Desarrolladores</td>
+                </tr>
+                <tr>
+                    <td>Desarrollo Frontend</td>
+                    <td>15 días</td>
+                    <td>2 Desarrolladores Frontend</td>
+                </tr>
+                <tr>
+                    <td>Migración de Datos</td>
+                    <td>5 días</td>
+                    <td>1 DBA, 1 Desarrollador</td>
+                </tr>
+                <tr>
+                    <td>Pruebas Unitarias e Integración</td>
+                    <td>12 días</td>
+                    <td>2 QA, 2 Desarrolladores</td>
+                </tr>
+                <tr>
+                    <td>Pruebas de Seguridad</td>
+                    <td>6 días</td>
+                    <td>1 Security Specialist</td>
+                </tr>
+                <tr>
+                    <td>Pruebas UAT</td>
+                    <td>8 días</td>
+                    <td>Cliente, 1 QA Lead</td>
+                </tr>
+                <tr>
+                    <td>Documentación</td>
+                    <td>5 días</td>
+                    <td>1 Technical Writer</td>
+                </tr>
+                <tr>
+                    <td>Despliegue y Estabilización</td>
+                    <td>3 días</td>
+                    <td>DevOps, Desarrolladores</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Ruta Crítica y Cronograma</h3>
+        <p><strong>Duración Total Estimada:</strong> 45-60 días calendario (considerando paralelización de tareas)</p>
+        <p><strong>Fecha Estimada de Inicio:</strong> 1 de Noviembre, 2025</p>
+        <p><strong>Fecha Estimada de Finalización:</strong> 15-30 de Enero, 2026</p>
+
+        <h3>Afectación al Cronograma Actual</h3>
+        <ul>
+            <li><strong>Retraso en Release v2.3:</strong> 3 semanas (de Dic 15 a Ene 5)</li>
+            <li><strong>Postergación de Feature X:</strong> Se mueve al Q1 2026</li>
+            <li><strong>Impacto en otros proyectos:</strong> Proyecto Y requiere reasignación de 1 desarrollador</li>
+            <li><strong>Buffers de tiempo:</strong> Se recomienda agregar 15% de buffer (7-9 días adicionales)</li>
+        </ul>
+
+        <div class="risk-box">
+            <strong>⚠️ Riesgo de Cronograma:</strong> Existe un 35% de probabilidad de exceder la estimación si las dependencias externas (APIs de terceros) no están disponibles a tiempo. Mitigation: Solicitar acceso anticipado y preparar mocks para desarrollo.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>💰 4. Impacto en Costo</h2>
+        
+        <h3>Recursos Humanos Adicionales</h3>
+        <table class="impact-table">
+            <thead>
+                <tr>
+                    <th>Rol</th>
+                    <th>Cantidad</th>
+                    <th>Días</th>
+                    <th>Tarifa/Día</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Desarrollador Senior</td>
+                    <td>2</td>
+                    <td>30</td>
+                    <td>$800</td>
+                    <td>$48,000</td>
+                </tr>
+                <tr>
+                    <td>Desarrollador Frontend</td>
+                    <td>2</td>
+                    <td>25</td>
+                    <td>$650</td>
+                    <td>$32,500</td>
+                </tr>
+                <tr>
+                    <td>QA Engineer</td>
+                    <td>2</td>
+                    <td>20</td>
+                    <td>$550</td>
+                    <td>$22,000</td>
+                </tr>
+                <tr>
+                    <td>Security Specialist</td>
+                    <td>1</td>
+                    <td>8</td>
+                    <td>$900</td>
+                    <td>$7,200</td>
+                </tr>
+                <tr>
+                    <td colspan="4"><strong>Total Recursos Humanos</strong></td>
+                    <td><strong>$109,700</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Herramientas y Licencias</h3>
+        <table class="impact-table">
+            <thead>
+                <tr>
+                    <th>Concepto</th>
+                    <th>Cantidad</th>
+                    <th>Costo Unitario</th>
+                    <th>Costo Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Licencias IDE Pro (3 meses)</td>
+                    <td>5</td>
+                    <td>$150</td>
+                    <td>$750</td>
+                </tr>
+                <tr>
+                    <td>Servicio OAuth Provider</td>
+                    <td>1</td>
+                    <td>$2,500</td>
+                    <td>$2,500</td>
+                </tr>
+                <tr>
+                    <td>Servicio de Notificaciones Push</td>
+                    <td>1</td>
+                    <td>$800/mes x 3</td>
+                    <td>$2,400</td>
+                </tr>
+                <tr>
+                    <td>Herramienta de Testing de Seguridad</td>
+                    <td>1</td>
+                    <td>$3,500</td>
+                    <td>$3,500</td>
+                </tr>
+                <tr>
+                    <td>Infraestructura Cloud Adicional</td>
+                    <td>3 meses</td>
+                    <td>$1,200/mes</td>
+                    <td>$3,600</td>
+                </tr>
+                <tr>
+                    <td colspan="3"><strong>Total Herramientas</strong></td>
+                    <td><strong>$12,750</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Otros Costos</h3>
+        <ul>
+            <li><strong>Capacitación del equipo:</strong> $4,500 (2 sesiones de framework actualizado)</li>
+            <li><strong>Consultoría externa:</strong> $8,000 (revisión de arquitectura)</li>
+            <li><strong>Contingencia (15%):</strong> $20,218</li>
+        </ul>
+
+        <h3>Resumen de Costos</h3>
+        <table class="impact-table">
+            <thead>
+                <tr>
+                    <th>Categoría</th>
+                    <th>Monto</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Recursos Humanos</td>
+                    <td>$109,700</td>
+                </tr>
+                <tr>
+                    <td>Herramientas y Licencias</td>
+                    <td>$12,750</td>
+                </tr>
+                <tr>
+                    <td>Otros Costos</td>
+                    <td>$12,500</td>
+                </tr>
+                <tr>
+                    <td>Contingencia</td>
+                    <td>$20,218</td>
+                </tr>
+                <tr style="background: #3498db; color: white; font-weight: bold;">
+                    <td>COSTO TOTAL ESTIMADO</td>
+                    <td>$155,168</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="recommendation-box">
+            <strong>💡 Optimización de Costos:</strong> Se puede reducir el costo en aproximadamente $25,000 (16%) si se utilizan recursos internos en lugar de 1 desarrollador senior externo y se negocia un plan anual del servicio de notificaciones.
+        </div>
+    </div>
+
+    <div class="section page-break">
+        <h2>✅ 5. Impacto en Calidad</h2>
+        
+        <h3>Riesgos de Defectos</h3>
+        <table class="impact-table">
+            <thead>
+                <tr>
+                    <th>Área de Riesgo</th>
+                    <th>Probabilidad</th>
+                    <th>Impacto</th>
+                    <th>Nivel de Riesgo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Regresión en autenticación</td>
+                    <td>Media</td>
+                    <td>Alto</td>
+                    <td><span class="impact-level high">ALTO</span></td>
+                </tr>
+                <tr>
+                    <td>Incompatibilidad con navegadores legacy</td>
+                    <td>Alta</td>
+                    <td>Medio</td>
+                    <td><span class="impact-level medium">MEDIO</span></td>
+                </tr>
+                <tr>
+                    <td>Pérdida de datos en migración</td>
+                    <td>Baja</td>
+                    <td>Alto</td>
+                    <td><span class="impact-level medium">MEDIO</span></td>
+                </tr>
+                <tr>
+                    <td>Performance degradado</td>
+                    <td>Media</td>
+                    <td>Medio</td>
+                    <td><span class="impact-level medium">MEDIO</span></td>
+                </tr>
+                <tr>
+                    <td>Errores en integración API</td>
+                    <td>Alta</td>
+                    <td>Medio</td>
+                    <td><span class="impact-level medium">MEDIO</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Estrategia de Pruebas Necesarias</h3>
+        
+        <h4>Pruebas Unitarias</h4>
+        <ul>
+            <li>Cobertura mínima objetivo: 85%</li>
+            <li>Enfoque especial en módulos de autenticación y pagos</li>
+            <li>Estimado: 400 casos de prueba nuevos</li>
+        </ul>
+
+        <h4>Pruebas de Integración</h4>
+        <ul>
+            <li>Validación de 102 endpoints API</li>
+            <li>Pruebas de integración con servicios externos (OAuth, Notificaciones)</li>
+            <li>Validación de flujos end-to-end críticos: 25 escenarios</li>
+        </ul>
+
+        <h4>Pruebas de Regresión</h4>
+        <ul>
+            <li>Suite completa de regresión: 650 casos existentes</li>
+            <li>Automatización: 90% de casos automatizables</li>
+            <li>Tiempo de ejecución: 4 horas por suite completa</li>
+        </ul>
+
+        <h4>Pruebas de Performance</h4>
+        <ul>
+            <li>Load testing: 5,000 usuarios concurrent</li>
+            <li>Stress testing: identificar puntos de quiebre</li>
+            <li>Time de respuesta objetivo: < 2 segundos (95 percentil)</li>
+        </ul>
+
+        <h4>Pruebas de Seguridad</h4>
+        <ul>
+            <li>Penetration testing completo</li>
+            <li>Análisis de vulnerabilidades OWASP Top 10</li>
+            <li>Testing de autenticación y autorización</li>
+        </ul>
+
+        <h4>Pruebas de Usabilidad (UAT)</h4>
+        <ul>
+            <li>Sesiones con 15 usuarios reales</li>
+            <li>Validación de 10 flujos críticos de negocio</li>
+            <li>Recolección de feedback estructurado</li>
+        </ul>
+
+        <h3>Métricas de Calidad</h3>
+        <table class="impact-table">
+            <thead>
+                <tr>
+                    <th>Métrica</th>
+                    <th>Objetivo</th>
+                    <th>Actual</th>
+                    <th>Umbral Mínimo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Cobertura de Código</td>
+                    <td>85%</td>
+                    <td>78%</td>
+                    <td>75%</td>
+                </tr>
+                <tr>
+                    <td>Defectos Críticos</td>
+                    <td>0</td>
+                    <td>-</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Defectos Altos</td>
+                    <td>< 5</td>
+                    <td>-</td>
+                    <td>< 10</td>
+                </tr>
+                <tr>
+                    <td>Tasa de Aprobación UAT</td>
+                    <td>95%</td>
+                    <td>-</td>
+                    <td>90%</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="recommendation-box">
+            <strong>💡 Recomendación de Calidad:</strong> Implementar ambiente de staging idéntico a producción 2 semanas antes del release. Establecer sesiones diarias de bug triage durante la fase de testing. Considerar soft-launch con 10% de usuarios para validación adicional.
+        </div>
+    </div>
+
+    <div class="section page-break">
+        <h2>🔒 6. Impacto en Seguridad</h2>
+        
+        <h3>Vulnerabilidades Potenciales Identificadas</h3>
+        <table class="impact-table">
+            <thead>
+                <tr>
+                    <th>Vulnerabilidad</th>
+                    <th>Severidad</th>
+                    <th>Mitigación Propuesta</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Exposición de tokens OAuth en logs</td>
+                    <td><span class="impact-level high">ALTA</span></td>
+                    <td>Implementar sanitización de logs y rotación de tokens</td>
+                </tr>
+                <tr>
+                    <td>Posible XSS en nuevos campos de input</td>
+                    <td><span class="impact-level medium">MEDIA</span></td>
+                    <td>Validación y sanitización exhaustiva, CSP headers</td>
+                </tr>
+                <tr>
+                    <td>Rate limiting insuficiente en nuevos endpoints</td>
+                    <td><span class="impact-level medium">MEDIA</span></td>
+                    <td>Implementar throttling a nivel de API Gateway</td>
+                </tr>
+                <tr>
+                    <td>Almacenamiento temporal de datos sensibles</td>
+                    <td><span class="impact-level medium">MEDIA</span></td>
+                    <td>Cifrado en reposo, limpieza automática post-procesamiento</td>
+                </tr>
+                <tr>
+                    <td>Dependencias con vulnerabilidades conocidas</td>
+                    <td><span class="impact-level low">BAJA</span></td>
+                    <td>Actualización a versiones parcheadas, escaneo continuo</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Cumplimiento Normativo
